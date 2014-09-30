@@ -1,0 +1,10 @@
+﻿@using HtmlHelpers.BeginCollectionItem
+@model Marking.ViewModels.NoteVM
+@using (Html.BeginCollectionItem("Notes"))
+{
+    <div class="NoteRow">
+        @Html.HiddenFor(model => model.ID)
+        @Html.TextAreaFor(model => model.Text, new { cols = "" })
+        <a href="javascript:void(0)" class="RemoveNewNote">Remove</a>
+    </div>
+}

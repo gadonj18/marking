@@ -1,0 +1,80 @@
+﻿@model Marking.Models.Classroom
+
+@section AddToHead{
+    <link href="@Url.Content("~/Content/Classrooms/AddAssessment.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/Classrooms/AddAssessment.js")"></script>
+}
+
+@{
+    ViewBag.Title = "AddAssessment";
+
+    List<SelectListItem> yearList = new List<SelectListItem>();
+    yearList.Add(new SelectListItem { Text = "- Filter by Year -", Value = "" });
+    foreach (var year in ViewBag.Years)
+    {
+        yearList.Add(new SelectListItem
+        {
+            Text = year.ToString(),
+            Value = year.ToString()
+        });
+    }
+
+    List<SelectListItem> gradeList = new List<SelectListItem>();
+    gradeList.Add(new SelectListItem { Text = "- Filter by Grade -", Value = "" });
+    foreach (var grade in ViewBag.Grades)
+    {
+        gradeList.Add(new SelectListItem
+        {
+            Text = grade.ToString(),
+            Value = grade.ToString()
+        });
+    }
+
+    List<SelectListItem> classroomList = new List<SelectListItem>();
+    classroomList.Add(new SelectListItem { Text = "- Filter by Classroom -", Value = "" });
+    foreach (var classroom in ViewBag.Classrooms)
+    {
+        classroomList.Add(new SelectListItem
+        {
+            Text = classroom.Title,
+            Value = classroom.ID.ToString()
+        });
+    }
+    
+    //Save assessments into new list for JSON to escape circular reference
+    List<Tuple<int, int, int, int, string, string, string>> assessments = new List<Tuple<int, int, int, int, string, string, string>>();
+    foreach (var assessment in ViewBag.Assessments)
+    {
+        assessments.Add(Tuple.Create<int, int, int, int, string, string, string>(
+            assessment.ID,
+            assessment.Classroom.ID,
+            assessment.Classroom.Year,
+            assessment.Classroom.Grade,
+            assessment.Title,
+            assessment.Subtitle,
+            assessment.Description
+        ));
+    }
+}
+<a class="BackButton" href="@Url.Action("Index", "Classrooms")">Back to Classrooms</a>
+<h3>Add Existing Assessment to <span>@Model.Title, Grade @Model.Grade</span></h3>
+
+<table id="AssessmentTable">
+    <thead>
+        <tr>
+            <th>@Html.DropDownList("YearFilter", yearList)</th>
+            <th>@Html.DropDownList("GradeFilter", gradeList)</th>
+            <th>@Html.DropDownList("ClassroomFilter", classroomList)</th>
+            <th><button id="ResetFilter" type="button">Reset Filter</button></th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+@{ Html.BeginForm("CopyToClassroom", "Assessments", FormMethod.Post, new { id = "AssessmentForm" }); }
+@Html.AntiForgeryToken()
+<input type="hidden" id="AssessmentID" name="AssessmentID" />
+<input type="hidden" id="ClassroomID" name="ClassroomID" value="@Model.ID" />
+@{ Html.EndForm(); }
+<script type="text/javascript">
+    var assessments = @Html.Raw(Json.Encode(assessments)) ;
+</script>

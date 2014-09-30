@@ -1,0 +1,10 @@
+﻿@model Marking.ViewModels.DropdownOptionVM
+<div>
+@using (Html.BeginCollectionItem(ViewData.TemplateInfo.HtmlFieldPrefix + ".Options"))
+{
+    @Html.HiddenFor(model => model.ID)
+    @Html.HiddenFor(model => model.OptionOrder, new { @class = "OptionOrder" })
+    @Html.EditorFor(model => model.Key, new { htmlAttributes = new { @class = "form-control DropdownOptionKey" } })
+    @Html.EditorFor(model => model.Value, new { htmlAttributes = new { @class = "form-control DropdownOptionValue" } })
+}
+</div>

@@ -1,0 +1,32 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.BackButton {
+    font-weight:bold;
+    color: #428bca;
+    font-size: 16pt;
+}
+.BackButton::before {
+    content: "◂";
+    font-size: 25pt;
+}
+.BackButton:hover { text-decoration: none; }
+
+div#Flash { width: 80%; margin: 20px auto; text-align: center; font-weight: bold; padding: 20px; background-color: #FFD9D9; border: 1px solid #E05151; color: red; }
+div#Flash.RedFlash { background-color: #FFD9D9; border: 1px solid #E05151; color: red; }
+div#Flash.GreenFlash { background-color: #DBFFD9; border: 1px solid #09B000; color: #09B000; }

@@ -1,0 +1,27 @@
+﻿@using Marking.Models
+@model Marking.ViewModels.CriterionVM
+<tr class="CriteriaRow">
+    <td class="ReOrderCol">
+        <button type="button" class="btn btn-default OrderUpButton" id="OrderUpButton_@(Model.ID)" value="">/\</button>
+        <button type="button" class="btn btn-default OrderDownButton" id="OrderDownButton_@(Model.ID)" value="">\/</button>
+    </td>
+    <td class="FieldTypeCol">
+        @Html.HiddenFor(model => model.FieldOrder)
+        @Html.HiddenFor(model => model.NewFieldOrder)
+        @Html.EnumDropDownListFor(model => model.FieldType, new { htmlAttributes = new { @class = "form-control FieldType" } })
+    </td>
+    <td class="FieldLabelCol">
+        @Html.EditorFor(model => model.Label, new { htmlAttributes = new { @class = "form-control FieldLabel" } })
+    </td>
+    <td class="FieldOptionsCol">
+        @Html.EditorFor(model => model.Options)
+    </td>
+    <td class="AddOptionRow">
+        @if (Model.FieldType == FieldTypes.Checkbox || Model.FieldType == FieldTypes.Radio || Model.FieldType == FieldTypes.Dropdown)
+        {
+            <div style="text-align: center;">
+                <input type="button" id="AddOptionButton_@(Model.ID)" class="AddOptionButton btn btn-default" value="+ Option" />
+            </div>
+        }
+    </td>
+</tr>

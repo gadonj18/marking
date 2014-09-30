@@ -1,0 +1,10 @@
+﻿@model Marking.ViewModels.AttachmentVM
+@using HtmlHelpers.BeginCollectionItem
+@using (Html.BeginCollectionItem("Attachments"))
+{
+    <div class="AttachmentRow">
+        @Html.HiddenFor(model => model.ID)
+        @Html.TextBoxFor(model => model.File, new { type = "file", @class = "AttachmentUpload" })
+        <a href="javascript:void(0)" class="RemoveNewAttachment">Remove</a>
+    </div>
+}

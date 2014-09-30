@@ -1,0 +1,31 @@
+﻿div.form-horizontal { margin-top: 40px; }
+
+/* AssessmentSection */
+#AssessmentSection { float: left; width: 50%; }
+
+/* AttachmentSection */
+#AttachmentSection { float: right; width: 50%; }
+input.AttachmentUpload { display: inline; }
+div.AttachmentRow { margin-bottom: 10px; }
+
+/* CriteriaSection */
+    /* Table */
+    #CriteriaSection { clear: both; }
+    #CriteriaTable { width: 100%; }
+    #CriteriaTable thead th { border-bottom: 1px solid #333; }
+    #CriteriaTable tfoot td { border-top: 1px solid #333; }
+    #CriteriaTable tbody td { vertical-align: middle; padding-top: 10px; padding-bottom: 10px; border-bottom: 1px dashed #CCC; }
+    #AddFieldCell { text-align: center; padding: 10px inherit; }
+    /* Order Column */
+    td.ReOrderCol { text-align: center; }
+    input.OrderUpButton, input.OrderDownButton { display: block; }
+    input.OrderUpButton { margin-bottom: 5px; }
+    /* Options Column */
+    td.FieldOptionsCol { text-align: right; }
+    input.DropdownOptionKey { width: 50px;  }
+    input.DropdownOptionValue, input.DropdownOptionKey { display: inline-block; margin-bottom: 5px; }
+    td.AddOptionRow { text-align: center; }
+
+/* NoteSection */
+div.NoteRow { width: 100%; text-align: center; margin-top: 10px; }
+div.NoteRow textarea { width: 70%; max-width: 80%; height: 70px; }

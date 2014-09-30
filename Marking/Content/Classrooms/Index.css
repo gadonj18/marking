@@ -1,0 +1,16 @@
+﻿p.CreateButton {
+    float: right;
+    font-size: 16px;
+    padding: 5px 10px;
+    margin: 10px 0;
+    font-weight: bold;
+}
+p.CreateButton a:hover { text-decoration: none; }
+tr.ClassroomRow { font-weight: bold; color: #FBFBFB; background-color: #CCC; }
+tr.ClassroomRow td span.Header:hover, tr.ClassroomRow td span.AddAssessment:hover { cursor: pointer; color: #428bca; }
+tr.ClassroomRow td span.AddAssessment { display: none; }
+tr.ClassroomRow td span.AddAssessment:hover { cursor: pointer; color: #428bca; }
+tr.ClassroomRow td span.AddAssessment, tr.ClassroomRow td span.EditClassroom { float: right; }
+tr.AssessmentRow { background-color: #DDD; display: none; }
+tr.AssessmentRow td { padding-left: 20px; }
+span.AssessmentEditLink { float: right; }

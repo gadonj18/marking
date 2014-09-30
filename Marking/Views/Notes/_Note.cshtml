@@ -1,0 +1,12 @@
+﻿@using HtmlHelpers.BeginCollectionItem
+@model Marking.ViewModels.NoteVM
+@using (Html.BeginCollectionItem("Notes"))
+{
+    <div class="NoteRow">
+        @Html.HiddenFor(model => model.ID)
+        @Html.HiddenFor(model => model.Removed, new { @class = "NoteRemoved" });
+        <span class="NoteDate">@Model.DateCreated</span>
+        <span class="Note">@(Model.Text)</span>
+        <a href="javascript:void(0)" class="RemoveNote">Remove</a>
+    </div>
+}

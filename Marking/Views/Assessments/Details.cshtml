@@ -1,0 +1,113 @@
+﻿@model Marking.Models.Assessment
+
+@{
+    ViewBag.Title = "Details";
+}
+<a class="BackButton" href="@Url.Action("Index", "Classrooms")">Back to Classrooms</a>
+<h2>Details</h2>
+
+<div>
+    <h4>Assessment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Classroom.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Classroom.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Subtitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Subtitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupWork)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GroupWork)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateDue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateDue)
+        </dd>
+    </dl>
+
+    <fieldset>
+        <legend>Criteria</legend>
+        <dl class="dl-horizontal">
+            @for (var i = 0; i < Model.Criteria.Count; i++)
+            {
+                <dt>@Html.DisplayFor(model => Model.Criteria[i].Label)</dt>
+                <dd>
+                    @{
+                switch (Model.Criteria[i].FieldType)
+                {
+                    case Marking.Models.FieldTypes.Textbox:
+                        <input type="text" value="" />
+                        break;
+                    case Marking.Models.FieldTypes.TextboxMulti:
+                        <textarea></textarea>
+                        break;
+                    case Marking.Models.FieldTypes.Radio:
+                        for (var j = 0; j < Model.Criteria[i].Options.Count; j++)
+                        {
+                            <input type="radio" name="Criteria[@(i)]" value="@(Model.Criteria[i].Options[j].Key)" /> @(Model.Criteria[i].Options[j].Value)
+                            if (j < (Model.Criteria[i].Options.Count - 1))
+                            {
+                                <br />
+                            }
+                        }
+                        break;
+                    case Marking.Models.FieldTypes.Dropdown:
+                        <select>
+                            <option value=""></option>
+                            @foreach (var option in Model.Criteria[i].Options)
+                            {
+                                <option value="@(option.Key)">@(option.Value)</option>
+                            }
+                        </select>
+                        break;
+                    case Marking.Models.FieldTypes.Checkbox:
+                        for (var j = 0; j < Model.Criteria[i].Options.Count; j++)
+                        {
+                            <input type="checkbox" value="@(Model.Criteria[i].Options[j].Key)" /> @(Model.Criteria[i].Options[j].Value)
+                            if (j < (Model.Criteria[i].Options.Count - 1))
+                            {
+                                <br />
+                            }
+                        }
+                        break;
+                }
+                    }
+                </dd>
+            }
+        </dl>
+    </fieldset>
+</div>

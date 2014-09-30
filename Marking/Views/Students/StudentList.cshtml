@@ -1,0 +1,49 @@
+﻿@model Marking.ViewModels.StudentListVM
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section AddToHead{
+    <link href="@Url.Content("~/Content/Students/StudentList.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/Students/StudentList.js")"></script>
+}
+<a class="BackButton" href="@Url.Action("Index", "Classrooms")">Back to Classrooms</a>
+<h2>@(Model.ClassroomTitle), Grade @(Model.Grade)</h2>
+<h4>@(Model.AssessmentTitle): @(Model.AssessmentSubtitle)</h4>
+<table id="StudentTable" class="table">
+    @foreach(var student in Model.Students) {
+        <tr class="StudentRow"><td colspan="2">@(student.StudentName)</td></tr>
+        foreach (var criteria in student.Marks)
+        {
+            <tr class="CriteriaRow">
+                <td class="CriteriaLabel">
+                    @(criteria.Label)
+                </td>
+                <td class="CriteriaData">
+                    <input type="hidden" class="CriterionID" value="@(criteria.CriterionID)" />
+                    <input type="hidden" class="StudentID" value="@(criteria.StudentID)" />
+                    <input type="hidden" class="OldValue" value="@(criteria.Value)" />
+                    @switch (criteria.FieldType)
+                    {
+                        case Marking.Models.FieldTypes.Checkbox:
+                            @Html.Partial("~/Views/Marks/_Checkbox.cshtml", criteria)
+                            break;
+                        case Marking.Models.FieldTypes.Dropdown:
+                        @Html.Partial("~/Views/Marks/_Dropdown.cshtml", criteria)
+                            break;
+                        case Marking.Models.FieldTypes.Radio:
+                        @Html.Partial("~/Views/Marks/_Radio.cshtml", criteria)
+                            break;
+                        case Marking.Models.FieldTypes.Textbox:
+                        @Html.Partial("~/Views/Marks/_Textbox.cshtml", criteria)
+                            break;
+                        case Marking.Models.FieldTypes.TextboxMulti:
+                        @Html.Partial("~/Views/Marks/_TextboxMulti.cshtml", criteria)
+                            break;
+                    }
+                </td>
+            </tr>
+        }
+    }
+</table>

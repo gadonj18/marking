@@ -1,0 +1,121 @@
+﻿@using Marking.Models
+@using Marking.ViewModels
+@model Marking.ViewModels.AssessmentVM
+
+<div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div id="AssessmentSection">
+            <fieldset>
+                <legend>Assessment Info:</legend>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Subtitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Subtitle, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Subtitle, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.GroupWork, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.GroupWork)
+                            @Html.ValidationMessageFor(model => model.GroupWork, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DateDue, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.DateDue, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DateDue, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    <div id="AttachmentSection">
+        <fieldset>
+            <legend>Attachments:</legend>
+            <div id="Attachments">
+            @foreach (var attachment in Model.Attachments)
+            {
+                @Html.Partial("~/Views/Attachments/_AttachmentDL.cshtml", attachment);
+            }
+            </div>
+            <div style="text-align: center; width: 100%">
+                <input type="button" id="AddAttachment" value="Attach Document" />
+            </div>
+        </fieldset>
+    </div>
+</div>
+<div id="CriteriaSection" class="form-horizontal">
+    <fieldset>
+        <legend>Marking Criteria:</legend>
+        <table id="CriteriaTable">
+            <thead>
+                <tr>
+                    <th>Re-Order</th>
+                    <th>Field Type</th>
+                    <th>Title</th>
+                    <th colspan="2">Options<br />Value - Text</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var criterion in Model.Criteria)
+                {
+                    @Html.Partial("~/Views/Criteria/_CriterionVM.cshtml", criterion);
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td id="AddFieldCell" colspan="5">
+                        <input type="button" id="AddFieldButton" class="btn btn-default" value="Add New Field" />
+                        <input type="hidden" id="FieldIndex" value="-1" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </fieldset>
+</div>
+<div class="form-horizontal">
+    <fieldset>
+        <legend>Notes</legend>
+        <div id="Notes">
+            @if (Model.Notes.Count() > 0)
+            {
+                foreach (var note in Model.Notes)
+                {
+                    @Html.Partial("~/Views/Notes/_Note.cshtml", note)
+                }
+            }
+            else
+            {
+                @Html.Partial("~/Views/Notes/_NewNote.cshtml", new NoteVM())
+            }
+        </div>
+        <div style="width: 100%; text-align: center; margin-top: 15px; ">
+            <input type="button" id="AddNoteButton" class="btn btn-default" value="Add Note" />
+        </div>
+    </fieldset>
+
+    <div class="form-group" style="width:100%;border-top:1px solid #333;text-align: center; padding:0;margin:0; margin-top: 50px; padding-top: 10px;">
+        <input type="submit" value="Save Assessment" class="btn btn-default" />
+    </div>
+</div>

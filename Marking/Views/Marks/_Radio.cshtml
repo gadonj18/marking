@@ -1,0 +1,6 @@
+﻿@model Marking.ViewModels.StudentListVM.StudentListVMMark
+@foreach (var option in Model.Options)
+{
+    <input type="radio" name="Criterion_@(Model.CriterionID)_@(Model.StudentID)" id="Criterion_@(Model.CriterionID)_@(Model.StudentID)_@(option.Key)" value="@(option.Key)" @(option.Key == Model.Value ? Html.Raw("checked='checked'").ToString() : "") />
+    <label for="Criterion_@(Model.CriterionID)_@(Model.StudentID)_@(option.Key)">@(option.Value)</label><br />
+}

@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Marking.Models.Classroom>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section AddToHead{
+    <link href="@Url.Content("~/Content/Classrooms/Index.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/Classrooms/Index.js")"></script>
+}
+
+<p class="CreateButton">
+    @Html.ActionLink("+ Class", "Create")
+</p>
+<table id="ClassroomTable" class="table">
+@foreach (var item in Model)
+{
+    <tr class="ClassroomRow closed" id="Classroom@(item.ID)">
+        <td>
+            <span class="EditClassroom" id="EditClassroom@(item.ID)">@Html.ActionLink("Edit", "Edit", new { id = item.ID })</span>
+            <span class="AddAssessment" id="AddAssessment@(item.ID)">+ Assessment</span>
+            <span class="Header">@Html.DisplayFor(modelItem => item.Title), Grade @Html.DisplayFor(modelItem => item.Grade)</span>
+        </td>
+    </tr>
+    if (item.Assessments.Count() > 0)
+    {
+        foreach (var assess in item.Assessments)
+        {
+            <tr class="AssessmentRow childOf@(item.ID)">
+                <td>
+                    <span class="AssessmentEditLink">@Html.ActionLink("Edit", "Edit", "Assessments", new { id = assess.ID }, null)</span>
+                    @Html.ActionLink(assess.Title + ": " + assess.Subtitle, "ListForAssessment", "Students", new { id = assess.ID }, null)
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr class="AssessmentRow childOf@(item.ID)">
+            <td>No assessments to display...</td>
+        </tr>
+    }
+}
+
+</table>
+<div id="AddAssessmentDialog" title="Add Assessment to Classroom">
+    <p><a id="AddNewLink" href="@Url.Action("Create", "Assessments")">Add New Assessment</a></p>
+    <p><a id="ReUseLink" href="@Url.Action("AddAssessment", "Classrooms")">Re-Use Existing Assessment</a></p>
+</div>

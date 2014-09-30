@@ -1,0 +1,21 @@
+﻿@model Marking.ViewModels.AssessmentVM
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+@section AddToHead{
+    <script src="@Url.Content("~/Scripts/Assessments/CreateEdit.js")"></script>
+    <link href="@Url.Content("~/Content/Assessments/CreateEdit.css")" rel="stylesheet" type="text/css" />
+}
+<a class="BackButton" href="@Url.Action("Index", "Classrooms")">Back to Classrooms</a>
+
+@using (Html.BeginForm("Edit", "Assessments", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Partial("_CreateEdit")
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
