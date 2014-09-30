@@ -58,6 +58,16 @@ namespace Marking.Controllers
             return View(list);
         }
 
+        [HttpPost]
+        public ActionResult UpdateMark(object data)
+        {
+            if (!Request.IsAjaxRequest())
+            {
+                return Json(new { code = "Failure" });
+            }
+            return Json(new { code = "Success" });
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -27,7 +27,7 @@
     function UpdateValue(CriterionID, StudentID, Value, Key) {
         $.ajax({
             type: "POST",
-            url: "Students/UpdateMark",
+            url: "Marks/UpdateMark",
             data: "{ CriterionID: " + CriterionID + ", StudentID: " + Student_id + ", Value: '" + Value + "', Key: " + (Key === undefined ? "NULL" : "'" + Key + "'") + "}",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
