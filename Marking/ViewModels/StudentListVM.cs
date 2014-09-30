@@ -16,6 +16,7 @@ namespace Marking.ViewModels
 
         public class StudentListVMStudent
         {
+            public int StudentID { get; set; }
             public string StudentName { get; set; }
             public IEnumerable<StudentListVMMark> Marks { get; set; }
         }

@@ -29,7 +29,7 @@
             <tr class="AssessmentRow childOf@(item.ID)">
                 <td>
                     <span class="AssessmentEditLink">@Html.ActionLink("Edit", "Edit", "Assessments", new { id = assess.ID }, null)</span>
-                    @Html.ActionLink(assess.Title + ": " + assess.Subtitle, "ListForAssessment", "Students", new { id = assess.ID }, null)
+                    @Html.ActionLink(assess.Title + ": " + assess.Subtitle, "ListForAssessment", "Marks", new { id = assess.ID }, null)
                 </td>
             </tr>
         }

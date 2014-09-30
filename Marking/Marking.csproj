@@ -164,7 +164,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Classrooms\AddAssessment.css" />
     <Content Include="Content\Classrooms\Index.css" />
-    <Content Include="Content\Students\StudentList.css" />
+    <Content Include="Content\Marks\ListForAssessment.css" />
     <Content Include="Scripts\Assessments\CreateEdit.js" />
     <Content Include="Scripts\Classrooms\AddAssessment.js" />
     <Content Include="Scripts\Classrooms\Index.js" />
@@ -268,7 +268,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\Students\StudentList.js" />
+    <Content Include="Scripts\Marks\ListForAssessment.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -301,7 +301,7 @@
     <Content Include="Views\Students\Details.cshtml" />
     <Content Include="Views\Students\Edit.cshtml" />
     <Content Include="Views\Students\Index.cshtml" />
-    <Content Include="Views\Students\StudentList.cshtml" />
+    <Content Include="Views\Marks\ListForAssessment.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\CriterionVM.old.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DropdownOptionVM.old.cshtml" />
     <Content Include="Views\Criteria\_CriterionVM.cshtml" />
@@ -318,7 +318,7 @@
     <Content Include="Views\Marks\_Dropdown.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Start\App_Data\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>

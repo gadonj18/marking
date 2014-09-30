@@ -1,4 +1,10 @@
 ﻿$(document).ready(function () {
+    $("tr.StudentRow").click(function () {
+        StudentID = $(this).find("input.StudentID").first().val().trim();
+        $("tr.CriteriaRow").hide();
+        $(this).siblings("tr.Student_" + StudentID).show();
+    });
+
     $("td.CriteriaData input[type='text'], td.CriteriaData textarea, td.CriteriaData select, td.CriteriaData input[type='radio']").blur(function () {
         CheckChanged($(this));
     });

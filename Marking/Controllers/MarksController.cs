@@ -15,8 +15,7 @@ namespace Marking.Controllers
     {
         private MarkingContext db = new MarkingContext();
 
-        // GET: Students/ListForAssessment/1
-        public ActionResult StudentList(int? id)
+        public ActionResult ListForAssessment(int? id)
         {
             if (id == null)
             {
@@ -33,6 +32,7 @@ namespace Marking.Controllers
                             Students = from enroll in assess.Classroom.Enrollments
                                        select new StudentListVM.StudentListVMStudent
                                        {
+                                           StudentID = enroll.StudentID,
                                            StudentName = enroll.Student.FirstName + " " + enroll.Student.LastName,
                                            Marks = from criteria in assess.Criteria
                                                    select new StudentListVM.StudentListVMMark

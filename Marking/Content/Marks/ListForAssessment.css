@@ -1,3 +1,3 @@
 ﻿table#StudentTable tr.StudentRow { font-weight: bold; color: #FBFBFB; background-color: #CCC; }
-table#StudentTable tr.CriteriaRow { background-color: #DDD; }
+table#StudentTable tr.CriteriaRow { background-color: #DDD; display:none; }
 table#StudentTable tr.StudentRow:hover { cursor: pointer; color: #428bca; }
