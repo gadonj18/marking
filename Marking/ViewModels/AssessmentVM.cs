@@ -15,7 +15,14 @@ namespace Marking.ViewModels
         public bool GroupWork { get; set; }
         public DateTime? DateDue { get; set; }
         public IEnumerable<CriterionVM> Criteria { get; set; }
-        public ICollection<NoteVM> Notes { get; set; }
-        public ICollection<AttachmentVM> Attachments { get; set; }
+        public IEnumerable<NoteVM> Notes { get; set; }
+        public IEnumerable<AttachmentVM> Attachments { get; set; }
+
+        public AssessmentVM()
+        {
+            Criteria = new List<CriterionVM>();
+            Notes = new List<NoteVM>();
+            Attachments = new List<AttachmentVM>();
+        }
     }
 }

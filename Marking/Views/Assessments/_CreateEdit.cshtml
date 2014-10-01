@@ -54,9 +54,12 @@
         <fieldset>
             <legend>Attachments:</legend>
             <div id="Attachments">
-            @foreach (var attachment in Model.Attachments)
+            @if (Model.Attachments != null)
             {
-                @Html.Partial("~/Views/Attachments/_AttachmentDL.cshtml", attachment);
+                foreach (var attachment in Model.Attachments)
+                {
+                    @Html.Partial("~/Views/Attachments/_AttachmentDL.cshtml", attachment);
+                }
             }
             </div>
             <div style="text-align: center; width: 100%">

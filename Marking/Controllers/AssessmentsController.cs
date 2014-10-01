@@ -139,12 +139,12 @@ namespace Marking.Controllers
             }
             Mapper.CreateMap<Assessment, AssessmentVM>();
             Mapper.CreateMap<Criterion, CriterionVM>()
+                .ForMember(dest => dest.Marks, opt => opt.Ignore())
                 .ForMember(dest => dest.OldFieldType, opt => opt.MapFrom(src => src.FieldType));
             Mapper.CreateMap<DropdownOption, DropdownOptionVM>();
             Mapper.CreateMap<Note, NoteVM>();
             Mapper.CreateMap<Attachment, AttachmentVM>();
             AssessmentVM assessmentVM = Mapper.Map<Assessment, AssessmentVM>(assessment);
-
             return View(assessmentVM);
         }
 
@@ -161,7 +161,7 @@ namespace Marking.Controllers
         }
 
         [HttpPost]
-        public ActionResult NewOptionRow()
+        public ActionResult NewOptionRow(string CriterionIndex)
         {
             if (!Request.IsAjaxRequest())
             {
@@ -169,6 +169,7 @@ namespace Marking.Controllers
             }
             DropdownOptionVM option = new DropdownOptionVM();
             option.OptionOrder = -1;
+            ViewData.TemplateInfo.HtmlFieldPrefix = "Criteria[" + CriterionIndex + "]";
             return PartialView("~/Views/DropdownOptions/_DropdownOptionVM.cshtml", option);
         }
 
@@ -213,7 +214,8 @@ namespace Marking.Controllers
             {
                 Mapper.CreateMap<DropdownOptionVM, DropdownOption>();
                 Mapper.CreateMap<CriterionVM, Criterion>()
-                    .ForMember(desc => desc.Marks, opt => opt.Ignore());
+                    .ForMember(desc => desc.Marks, opt => opt.Ignore())
+                    .ForMember(desc => desc.Options, opt => opt.Ignore());
                 Mapper.CreateMap<AssessmentVM, Assessment>()
                     .ForMember(desc => desc.Criteria, opt => opt.Ignore())
                     .ForMember(desc => desc.Attachments, opt => opt.Ignore())
@@ -233,6 +235,7 @@ namespace Marking.Controllers
                             if (targetCriteria == null)
                             {
                                 targetCriteria = Mapper.Map<CriterionVM, Criterion>(criterion);
+                                targetCriteria.AssessmentID = assessment.ID;
                                 db.Entry(targetCriteria).State = EntityState.Added;
                                 db.Criteria.Add(targetCriteria);
                             }
@@ -250,6 +253,7 @@ namespace Marking.Controllers
                                 if (targetOption == null)
                                 {
                                     targetOption = Mapper.Map<DropdownOptionVM, DropdownOption>(option);
+                                    targetOption.CriterionID = targetCriteria.ID;
                                     db.Entry(targetOption).State = EntityState.Added;
                                     db.DropdownOptions.Add(targetOption);
                                 }
@@ -269,7 +273,7 @@ namespace Marking.Controllers
 
                         return RedirectToAction("Index", "Classrooms", null);
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
                         TempData["Flash"] = "Unexpected error while saving assessment";
                         dbContextTransaction.Rollback();

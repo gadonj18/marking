@@ -6,15 +6,19 @@
     });
 
     $("td.CriteriaData input[type='text'], td.CriteriaData textarea, td.CriteriaData select, td.CriteriaData input[type='radio']").blur(function () {
-        CheckChanged($(this));
+        CheckChanged($(this), $(this).val().trim());
     });
 
     $("td.CriteriaData select, td.CriteriaData input[type='radio']").change(function () {
-        CheckChanged($(this));
+        CheckChanged($(this), $(this).val().trim());
     });
 
-    function CheckChanged(Field) {
-        var Value = $(Field).val().trim();
+    $("td.CriteriaData input[type='checkbox']").change(function () {
+        var Value = $.map($("td.CriteriaData input[type='checkbox'][name='" + $(this).attr("name") + "']:checked"), function (elem) { return elem.value || ""; }).join("|");
+        CheckChanged($(this), Value);
+    });
+
+    function CheckChanged(Field, Value) {
         var OldValue = $(Field).siblings("input.OldValue").first().val().trim();
         if (Value !== OldValue) {
             var CriterionID = $(Field).siblings("input.CriterionID").first().val().trim();
@@ -25,14 +29,17 @@
     }
 
     function UpdateValue(CriterionID, StudentID, Value, Key) {
+        if(Key === undefined) Key = "";
+        var data = { "CriterionID": CriterionID, "StudentID": StudentID, "Value": Value, "Key": Key };
         $.ajax({
             type: "POST",
-            url: "Marks/UpdateMark",
-            data: "{ CriterionID: " + CriterionID + ", StudentID: " + Student_id + ", Value: '" + Value + "', Key: " + (Key === undefined ? "NULL" : "'" + Key + "'") + "}",
+            cache: false,
+            url: "/Marks/UpdateMark",
+            data: JSON.stringify(data),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (msg) {
-                alert('test');
+                console.log(msg);
             }
         });
     }

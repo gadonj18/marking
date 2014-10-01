@@ -130,10 +130,14 @@ function AddCriterionRow() {
 function AddOptionRow(button) {
     var cell = $(button).parent().siblings("td.FieldOptionsCol");
     var numOptions = parseInt($(cell).children("div").length, 10);
+    console.log($(button).parent().siblings("input[name='Criteria.index']").val());
+    var data = { "CriterionIndex": $(button).parent().siblings("input[name='Criteria.index']").val() };
     $.ajax({
         type: "POST",
         url: "/Assessments/NewOptionRow",
         cache: false,
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
         datatype: "html",
         success: function (data) {
             $(cell).append(data);

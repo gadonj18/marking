@@ -35,6 +35,7 @@ namespace Marking.Controllers
                                            StudentID = enroll.StudentID,
                                            StudentName = enroll.Student.FirstName + " " + enroll.Student.LastName,
                                            Marks = from criteria in assess.Criteria
+                                                   orderby criteria.FieldOrder
                                                    select new StudentListVM.StudentListVMMark
                                                    {
                                                        Value = criteria.Marks.FirstOrDefault(x => x.StudentID == enroll.StudentID).Value,
@@ -59,13 +60,46 @@ namespace Marking.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateMark(object data)
+        public ActionResult UpdateMark(int CriterionID, int StudentID, string Value)
         {
             if (!Request.IsAjaxRequest())
             {
-                return Json(new { code = "Failure" });
+                return Json(new { code = "FAIL" });
             }
-            return Json(new { code = "Success" });
+
+            using (var dbContextTransaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    Mark mark = (from oldMark in db.Marks
+                                 where oldMark.CriterionID == CriterionID
+                                 select oldMark).FirstOrDefault();
+                    if (mark == null)
+                    {
+                        mark = new Mark()
+                        {
+                            CriterionID = CriterionID,
+                            StudentID = StudentID,
+                            Value = Value
+                        };
+                        db.Entry(mark).State = EntityState.Added;
+                        db.Marks.Add(mark);
+                    }
+                    else
+                    {
+                        db.Entry(mark).State = EntityState.Modified;
+                        mark.Value = Value;
+                    }
+                    db.SaveChanges();
+                    dbContextTransaction.Commit();
+                    return Json(new { code = "PASS" });
+                }
+                catch (Exception)
+                {
+                    dbContextTransaction.Rollback();
+                    return Json(new { code = "FAILSTOP" });
+                }
+            }
         }
 
         protected override void Dispose(bool disposing)
