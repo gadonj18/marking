@@ -149,6 +149,7 @@
     <Compile Include="Models\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AttachmentVM.cs" />
+    <Compile Include="ViewModels\ClassroomListVM.cs" />
     <Compile Include="ViewModels\ClassroomVM.cs" />
     <Compile Include="ViewModels\CriterionVM.cs" />
     <Compile Include="ViewModels\DropdownOptionVM.cs" />

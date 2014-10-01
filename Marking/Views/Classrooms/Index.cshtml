@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Marking.Models.Classroom>
+﻿@model IEnumerable<Marking.ViewModels.ClassroomListVM>
 
 @{
     ViewBag.Title = "Index";
@@ -13,20 +13,20 @@
     @Html.ActionLink("+ Class", "Create")
 </p>
 <table id="ClassroomTable" class="table">
-@foreach (var item in Model)
+@foreach (var classroom in Model)
 {
-    <tr class="ClassroomRow closed" id="Classroom@(item.ID)">
+    <tr class="ClassroomRow closed" id="Classroom@(classroom.ID)">
         <td>
-            <span class="EditClassroom" id="EditClassroom@(item.ID)">@Html.ActionLink("Edit", "Edit", new { id = item.ID })</span>
-            <span class="AddAssessment" id="AddAssessment@(item.ID)">+ Assessment</span>
-            <span class="Header">@Html.DisplayFor(modelItem => item.Title), Grade @Html.DisplayFor(modelItem => item.Grade)</span>
+            <span class="EditClassroom" id="EditClassroom@(classroom.ID)">@Html.ActionLink("Edit", "Edit", new { id = classroom.ID })</span>
+            <span class="AddAssessment" id="AddAssessment@(classroom.ID)">+ Assessment</span>
+            <span class="Header">@Html.DisplayFor(modelItem => classroom.Title), Grade @Html.DisplayFor(modelItem => classroom.Grade)</span>
         </td>
     </tr>
-    if (item.Assessments.Count() > 0)
+    if (classroom.Assessments.Count() > 0)
     {
-        foreach (var assess in item.Assessments)
+        foreach (var assess in classroom.Assessments)
         {
-            <tr class="AssessmentRow childOf@(item.ID)">
+            <tr class="AssessmentRow childOf@(classroom.ID)">
                 <td>
                     <span class="AssessmentEditLink">@Html.ActionLink("Edit", "Edit", "Assessments", new { id = assess.ID }, null)</span>
                     @Html.ActionLink(assess.Title + ": " + assess.Subtitle, "ListForAssessment", "Marks", new { id = assess.ID }, null)
@@ -36,7 +36,7 @@
     }
     else
     {
-        <tr class="AssessmentRow childOf@(item.ID)">
+        <tr class="AssessmentRow childOf@(classroom.ID)">
             <td>No assessments to display...</td>
         </tr>
     }

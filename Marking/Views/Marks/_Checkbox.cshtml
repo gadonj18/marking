@@ -1,12 +1,12 @@
 ﻿@model Marking.ViewModels.StudentListVM.StudentListVMMark
 @{
-    String[] values = new String[];
+    List<String> values = new List<String>();
     if(Model.Value != null) {
-        values = Model.Value.Split('|');
+        values = new List<String>(Model.Value.Split('|'));
     }
 }
 @foreach (var option in Model.Options)
 {
-    <input type="checkbox" name="Criterion_@(Model.CriterionID)_@(Model.StudentID)[]" id="Criterion_@(Model.CriterionID)_@(Model.StudentID)_@(option.Key)" value="@(option.Key)" @(Array.IndexOf(values, option.Key) > -1 ? Html.Raw("checked='checked'").ToString() : "") />
+    <input type="checkbox" name="Criterion_@(Model.CriterionID)_@(Model.StudentID)[]" id="Criterion_@(Model.CriterionID)_@(Model.StudentID)_@(option.Key)" value="@(option.Key)" @(values.Contains(option.Key) ? Html.Raw("checked='checked'").ToString() : "") />
     <label for="Criterion_@(Model.CriterionID)_@(Model.StudentID)_@(option.Key)">@(option.Value)</label><br />
 }

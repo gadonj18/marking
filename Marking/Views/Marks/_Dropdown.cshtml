@@ -2,7 +2,7 @@
 <select id="Criterion_@(Model.CriterionID)_@(Model.StudentID)">
     <option></option>
     @foreach (var option in Model.Options)
-    {
-        <option value="@(option.Key)" @(option.Key == Model.Value ? Html.Raw("selected='selected'").ToString() : "")>@(option.Value)</option>
-    }
+{
+    <option value="@(option.Key)" @(option.Key == Model.Value ? Html.Raw("selected='selected'").ToString() : "")>@(option.Value)</option>
+}
 </select>

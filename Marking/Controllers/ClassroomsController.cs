@@ -17,9 +17,27 @@ namespace Marking.Controllers
     {
         private MarkingContext db = new MarkingContext();
 
-        public ActionResult Index()
+        public ActionResult Index(int? year = null)
         {
-            return View(db.Classrooms.ToList());
+            if (year == null) year = DateTime.Now.Year;
+            var classrooms = (from classroom in db.Classrooms
+                             where classroom.Year == year
+                             select new ClassroomListVM
+                             {
+                                 ID = classroom.ID,
+                                 Title = classroom.Title,
+                                 Grade = classroom.Grade,
+                                 Assessments = from assess in db.Assessments
+                                               where assess.ClassroomID == classroom.ID
+                                               select new ClassroomListVM.ClassroomListVMAssessment
+                                               {
+                                                   ID = assess.ID,
+                                                   Title = assess.Title,
+                                                   Subtitle = assess.Subtitle,
+                                                   Description = assess.Description
+                                               }
+                             }).ToList();
+            return View(classrooms);
         }
 
         public ActionResult Details(int? id)
