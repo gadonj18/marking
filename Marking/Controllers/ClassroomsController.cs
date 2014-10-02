@@ -40,20 +40,6 @@ namespace Marking.Controllers
             return View(classrooms);
         }
 
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Classroom classroom = db.Classrooms.Find(id);
-            if (classroom == null)
-            {
-                return HttpNotFound();
-            }
-            return View(classroom);
-        }
-
         public ActionResult Create()
         {
             return View();
@@ -61,7 +47,7 @@ namespace Marking.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ClassroomVM classroomVM)
+        public ActionResult Create(ClassroomCreateEditVM classroomVM)
         {
             if (ModelState.IsValid)
             {
@@ -69,8 +55,8 @@ namespace Marking.Controllers
                 {
                     try
                     {
-                        Mapper.CreateMap<ClassroomVM, Classroom>();
-                        Classroom classroom = Mapper.Map<ClassroomVM, Classroom>(classroomVM);
+                        Mapper.CreateMap<ClassroomCreateEditVM, Classroom>();
+                        Classroom classroom = Mapper.Map<ClassroomCreateEditVM, Classroom>(classroomVM);
                         db.Classrooms.Add(classroom);
                         db.SaveChanges();
                         dbContextTransaction.Commit();
@@ -99,12 +85,14 @@ namespace Marking.Controllers
             {
                 return HttpNotFound();
             }
-            return View(classroom);
+            Mapper.CreateMap<Classroom, ClassroomCreateEditVM>();
+            ClassroomCreateEditVM classroomVM = Mapper.Map<Classroom, ClassroomCreateEditVM>(classroom);
+            return View(classroomVM);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int? id, ClassroomVM classroomVM)
+        public ActionResult Edit(int? id, ClassroomCreateEditVM classroomVM)
         {
             if (id == null)
             {
@@ -122,13 +110,8 @@ namespace Marking.Controllers
                 {
                     try
                     {
-                        Mapper.CreateMap<ClassroomVM, Classroom>()
-                            .ForMember(dest => dest.ID, opt => opt.Ignore())
-                            .ForMember(dest => dest.Attachments, opt => opt.Ignore())
-                            .ForMember(dest => dest.Assessments, opt => opt.Ignore())
-                            .ForMember(dest => dest.Enrollments, opt => opt.Ignore())
-                            .ForMember(dest => dest.Notes, opt => opt.Ignore());
-                        Mapper.Map<ClassroomVM, Classroom>(classroomVM, classroom);
+                        Mapper.CreateMap<ClassroomCreateEditVM, Classroom>();
+                        Mapper.Map<ClassroomCreateEditVM, Classroom>(classroomVM, classroom);
 
                         db.Entry(classroom).State = EntityState.Modified;
                         db.SaveChanges();
