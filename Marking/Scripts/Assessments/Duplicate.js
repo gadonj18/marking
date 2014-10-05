@@ -27,21 +27,21 @@
 
         for(var item in assessments) {
             if ((year === "" && grade === "" && classroom === "") ||  (
-                (year === "" || parseInt(year, 10) === assessments[item].Item3) && 
-                (grade === "" || parseInt(grade, 10) === assessments[item].Item4) && 
-                (classroom === "" || parseInt(classroom, 10) === assessments[item].Item2)
+                (year === "" || parseInt(year, 10) === assessments[item].Year) && 
+                (grade === "" || parseInt(grade, 10) === assessments[item].Grade) && 
+                (classroom === "" || parseInt(classroom, 10) === assessments[item].ClassroomID)
             )) {
 
                 $("#AssessmentTable tbody").append($("<tr/>")
                     .attr("class", "AssessmentRow")
-                    .attr("id", "Assessment" + assessments[item].Item1)
+                    .attr("id", "Assessment" + assessments[item].AssessmentID)
                     .click(function () {
                         $("#AssessmentID").val($(this).attr("id").substr(10));
                         $("#AssessmentForm").submit();
                     })
                     .append($("<td/>")
                         .attr("colspan", "4")
-                        .text(assessments[item].Item5 + ": " + assessments[item].Item6)
+                        .text(assessments[item].Title + ": " + assessments[item].Subtitle)
                     )
                 );
             }

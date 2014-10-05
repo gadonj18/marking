@@ -84,14 +84,51 @@ namespace Marking.Controllers
             return View();
         }
 
+        public ActionResult Duplicate(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var vm = (from classroom in db.Classrooms
+                      where classroom.ID == id
+                      select new DuplicateAssessmentVM
+                      {
+                          ClassroomID = classroom.ID,
+                          ClassroomTitle = classroom.Title,
+                          Grade = classroom.Grade,
+                          FilterYears = (List<int>)db.Classrooms.OrderBy(x => x.Year).Select(x => x.Year).Distinct<int>(),
+                          FilterGrades = (List<int>)db.Classrooms.OrderBy(x => x.Grade).Select(x => x.Grade).Distinct<int>(),
+                          FilterClassrooms = from classroom3 in db.Classrooms
+                                             select new DuplicateAssessmentVM.Classroom {
+                                                 ID = classroom3.ID,
+                                                 Title = classroom3.Title
+                                             },
+                          Assessments = from assessment in db.Assessments
+                                        from classroom2 in db.Classrooms
+                                        where assessment.ClassroomID == classroom2.ID
+                                        select new DuplicateAssessmentVM.Assessment
+                                        {
+                                            AssessmentID = assessment.ID,
+                                            ClassroomID = classroom2.ID,
+                                            ClassrooomTitle = classroom2.Title,
+                                            Year = classroom2.Year,
+                                            Grade = classroom2.Grade,
+                                            Title = assessment.Title,
+                                            Subtitle = assessment.Subtitle
+                                        }
+                      }).SingleOrDefault();
+            if (vm == null)
+            {
+                return HttpNotFound();
+            }
 
+            return View(vm);
+        }
 
-        // POST: Assessments/CopyToClassroom
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CopyToClassroom(int? AssessmentID, int? ClassroomID)
+        public ActionResult Duplicate(int? AssessmentID, int? ClassroomID)
         {
             if (AssessmentID == null || ClassroomID == null)
             {
@@ -104,7 +141,15 @@ namespace Marking.Controllers
                 return HttpNotFound();
             }
 
-            Assessment newAssessment = Assessment.Copy(assessment);
+            Mapper.CreateMap<Assessment, Assessment>()
+                .ForMember(dest => dest.ID, opt => opt.UseValue(0))
+                .ForMember(dest => dest.Notes, opt => opt.Ignore())
+                .ForMember(dest => dest.Attachments, opt => opt.Ignore());
+            Mapper.CreateMap<Criterion, Criterion>()
+                .ForMember(dest => dest.ID, opt => opt.UseValue(0));
+            Mapper.CreateMap<DropdownOption, DropdownOption>()
+                .ForMember(dest => dest.ID, opt => opt.UseValue(0));
+            Assessment newAssessment = Mapper.Map<Assessment, Assessment>(assessment);
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
                 try

@@ -155,6 +155,7 @@
     <Compile Include="ViewModels\CriterionVM.cs" />
     <Compile Include="ViewModels\DropdownOptionVM.cs" />
     <Compile Include="ViewModels\AssessmentVM.cs" />
+    <Compile Include="ViewModels\DuplicateAssessmentVM.cs" />
     <Compile Include="ViewModels\StudentListVM.cs" />
     <Compile Include="ViewModels\MarkVM.cs" />
     <Compile Include="ViewModels\NoteVM.cs" />
@@ -164,11 +165,11 @@
     <Content Include="Content\Assessments\CreateEdit.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Classrooms\AddAssessment.css" />
+    <Content Include="Content\Assessments\Duplicate.css" />
     <Content Include="Content\Classrooms\Index.css" />
     <Content Include="Content\Marks\ListForAssessment.css" />
     <Content Include="Scripts\Assessments\CreateEdit.js" />
-    <Content Include="Scripts\Classrooms\AddAssessment.js" />
+    <Content Include="Scripts\Assessments\Duplicate.js" />
     <Content Include="Scripts\Classrooms\Index.js" />
     <Content Include="Content\images\animated-overlay.gif" />
     <Content Include="Content\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
@@ -272,14 +273,18 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\Marks\ListForAssessment.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -291,7 +296,7 @@
     <Content Include="Views\Classrooms\Details.cshtml" />
     <Content Include="Views\Classrooms\Edit.cshtml" />
     <Content Include="Views\Classrooms\Index.cshtml" />
-    <Content Include="Views\Classrooms\AddAssessment.cshtml" />
+    <Content Include="Views\Assessments\Duplicate.cshtml" />
     <Content Include="Views\Assessments\Create.cshtml" />
     <Content Include="Views\Assessments\Delete.cshtml" />
     <Content Include="Views\Assessments\Details.cshtml" />
@@ -306,7 +311,7 @@
     <Content Include="Views\Marks\ListForAssessment.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\CriterionVM.old.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DropdownOptionVM.old.cshtml" />
-    <Content Include="Views\Criteria\_CriterionVM.cshtml" />
+    <Content Include="Views\DropdownOptions\Criteria\_CriterionVM.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
     <Content Include="Views\DropdownOptions\_DropdownOptionVM.cshtml" />
     <Content Include="Views\Notes\_Note.cshtml" />

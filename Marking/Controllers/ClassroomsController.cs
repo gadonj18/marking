@@ -130,7 +130,7 @@ namespace Marking.Controllers
             return View(classroom);
         }
 
-        public ActionResult AddAssessment(int? id)
+        /*public ActionResult AddAssessment(int? id)
         {
             if (id == null)
             {
@@ -151,7 +151,7 @@ namespace Marking.Controllers
             ViewBag.Classrooms = classrooms;
 
             return View(classroom);
-        }
+        }*/
 
         protected override void Dispose(bool disposing)
         {

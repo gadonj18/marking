@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -27,19 +26,5 @@ namespace Marking.Models
         public virtual ICollection<Note> Notes { get; set; }
         public virtual ICollection<Attachment> Attachments { get; set; }
         public virtual IList<Criterion> Criteria { get; set; }
-
-        public static Assessment Copy(Assessment assessment)
-        {
-            Mapper.CreateMap<Assessment, Assessment>()
-                .ForMember(dest => dest.ID, opt => opt.UseValue(0))
-                .ForMember(dest => dest.Notes, opt => opt.Ignore())
-                .ForMember(dest => dest.Attachments, opt => opt.Ignore());
-            Mapper.CreateMap<Criterion, Criterion>()
-                .ForMember(dest => dest.ID, opt => opt.UseValue(0));
-            Mapper.CreateMap<DropdownOption, DropdownOption>()
-                .ForMember(dest => dest.ID, opt => opt.UseValue(0));
-            Assessment newAssessment = Mapper.Map<Assessment, Assessment>(assessment);
-            return newAssessment;
-        }
     }
 }
