@@ -7,6 +7,9 @@
 #AttachmentSection { float: right; width: 50%; }
 input.AttachmentUpload { display: inline; }
 div.AttachmentRow { margin-bottom: 10px; }
+div.AttachmentRow input, div.AttachmentRow a.RemoveAttachment { display: inline; }
+div.AttachmentRow input { width: 35%; }
+div.AttachmentRow a.RemoveAttachment { width: 29%; }
 
 /* CriteriaSection */
     /* Table */

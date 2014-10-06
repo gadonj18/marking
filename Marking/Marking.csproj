@@ -312,12 +312,12 @@
     <Content Include="Views\Marks\ListForAssessment.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\CriterionVM.old.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DropdownOptionVM.old.cshtml" />
-    <Content Include="Views\DropdownOptions\Criteria\_CriterionVM.cshtml" />
+    <Content Include="Views\Criteria\_CriterionVM.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Collection.cshtml" />
     <Content Include="Views\DropdownOptions\_DropdownOptionVM.cshtml" />
     <Content Include="Views\Notes\_Note.cshtml" />
     <Content Include="Views\Attachments\_NewAttachment.cshtml" />
-    <Content Include="Views\Attachments\_Attachment.cshtml" />
+    <Content Include="Views\Attachments\_AttachmentDL.cshtml" />
     <Content Include="Views\Notes\_NewNote.cshtml" />
     <Content Include="Views\Marks\_Checkbox.cshtml" />
     <Content Include="Views\Marks\_Textbox.cshtml" />

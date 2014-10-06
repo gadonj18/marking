@@ -43,7 +43,7 @@ namespace Marking.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(int? id, Assessment Assessment)
+        public ActionResult Create(int? id, AssessmentCreateEditVM vm)
         {
             if (id == null)
             {
@@ -54,7 +54,6 @@ namespace Marking.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Assessment.ClassroomID = classroom.ID;
 
             if (ModelState.IsValid)
             {
@@ -62,6 +61,12 @@ namespace Marking.Controllers
                 {
                     try
                     {
+                        Mapper.CreateMap<AssessmentCreateEditVM, Assessment>();
+                        Mapper.CreateMap<AssessmentCreateEditVM.Attachment, Attachment>();
+                        Mapper.CreateMap<AssessmentCreateEditVM.Note, Note>();
+                        Mapper.CreateMap<AssessmentCreateEditVM.Criterion, Criterion>();
+                        Mapper.CreateMap<AssessmentCreateEditVM.DropdownOption, DropdownOption>();
+
                         db.Assessments.Add(Assessment);
                         db.SaveChanges();
                         dbContextTransaction.Commit();
@@ -197,7 +202,7 @@ namespace Marking.Controllers
             {
                 return HttpNotFound();
             }
-            CriterionVM criterion = new CriterionVM();
+            AssessmentCreateEditVM.Criterion criterion = new AssessmentCreateEditVM.Criterion();
             criterion.FieldOrder = -1;
             return PartialView("~/Views/Criteria/_CriterionVM.cshtml", criterion);
         }
@@ -209,7 +214,7 @@ namespace Marking.Controllers
             {
                 return HttpNotFound();
             }
-            DropdownOptionVM option = new DropdownOptionVM();
+            AssessmentCreateEditVM.DropdownOption option = new AssessmentCreateEditVM.DropdownOption();
             option.OptionOrder = -1;
             ViewData.TemplateInfo.HtmlFieldPrefix = "Criteria[" + CriterionIndex + "]";
             return PartialView("~/Views/DropdownOptions/_DropdownOptionVM.cshtml", option);
@@ -222,7 +227,7 @@ namespace Marking.Controllers
             {
                 return HttpNotFound();
             }
-            return PartialView("~/Views/Notes/_NewNote.cshtml", new NoteVM());
+            return PartialView("~/Views/Notes/_NewNote.cshtml", new AssessmentCreateEditVM.Note());
         }
 
         [HttpPost]
@@ -232,7 +237,7 @@ namespace Marking.Controllers
             {
                 return HttpNotFound();
             }
-            return PartialView("~/Views/Attachments/_NewAttachment.cshtml", new AttachmentVM());
+            return PartialView("~/Views/Attachments/_NewAttachment.cshtml", new AssessmentCreateEditVM.Attachment());
         }
 
         [HttpPost]

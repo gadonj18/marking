@@ -8,32 +8,32 @@
             <fieldset>
                 <legend>Assessment Info:</legend>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.AssessmentTitle, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    @Html.LabelFor(model => model.AssessmentTitle, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
                         @Html.EditorFor(model => model.AssessmentTitle, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.AssessmentTitle, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.AssessmentSubtitle, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    @Html.LabelFor(model => model.AssessmentSubtitle, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
                         @Html.EditorFor(model => model.AssessmentSubtitle, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.AssessmentSubtitle, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
                         @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.GroupWork, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    @Html.LabelFor(model => model.GroupWork, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
                         <div class="checkbox">
                             @Html.EditorFor(model => model.GroupWork)
                             @Html.ValidationMessageFor(model => model.GroupWork, "", new { @class = "text-danger" })
@@ -42,8 +42,8 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.DateDue, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    @Html.LabelFor(model => model.DateDue, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
                         @Html.EditorFor(model => model.DateDue, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.DateDue, "", new { @class = "text-danger" })
                     </div>
@@ -81,10 +81,13 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var criterion in Model.Criteria)
+                @if (Model.Criteria != null)
                 {
-                    @Html.Partial("~/Views/Criteria/_CriterionVM.cshtml", criterion);
-                }
+                    foreach (var criterion in Model.Criteria)
+                    {
+                        @Html.Partial("~/Views/Criteria/_CriterionVM.cshtml", criterion);
+                    }
+                }                
             </tbody>
             <tfoot>
                 <tr>
@@ -101,16 +104,12 @@
     <fieldset>
         <legend>Notes</legend>
         <div id="Notes">
-            @if (Model.Notes.Count() > 0)
+            @if (Model.Notes != null)
             {
                 foreach (var note in Model.Notes)
                 {
                     @Html.Partial("~/Views/Notes/_Note.cshtml", note)
                 }
-            }
-            else
-            {
-                @Html.Partial("~/Views/Notes/_NewNote.cshtml", new NoteVM())
             }
         </div>
         <div style="width: 100%; text-align: center; margin-top: 15px; ">

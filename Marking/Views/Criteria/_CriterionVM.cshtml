@@ -1,0 +1,33 @@
+﻿@using Marking.Models
+@using HtmlHelpers.BeginCollectionItem
+@model Marking.ViewModels.AssessmentCreateEditVM.Criterion
+<tr class="CriteriaRow">
+    @using (Html.BeginCollectionItem("Criteria"))
+    {
+        <td class="ReOrderCol">
+            @Html.HiddenFor(model => model.ID)
+            @Html.HiddenFor(model => model.FieldOrder, new { @class = "FieldOrder" })
+            <input type="button" class="btn btn-default OrderUpButton" value="/\" />
+            <input type="button" class="btn btn-default OrderDownButton" value="\/" />
+        </td>
+        <td class="FieldTypeCol">
+            @Html.HiddenFor(model => model.OldFieldType, new { @class = "OldFieldType" })
+            @Html.EnumDropDownListFor(model => model.FieldType, new { @class = "form-control FieldType" })
+        </td>
+        <td class="FieldLabelCol">
+            @Html.EditorFor(model => model.Label, new { htmlAttributes = new { @class = "form-control FieldLabel" } })
+        </td>
+        <td class="FieldOptionsCol">
+            @if (Model.Options != null)
+            {
+                foreach (var Option in Model.Options)
+                {
+                    @Html.Partial("~/Views/DropdownOptions/_DropdownOptionVM.cshtml", Option);
+                }
+            }
+        </td>
+        <td class="AddOptionRow">
+            <input type="button" class="AddOptionButton btn btn-default" value="+ Option"@(Model.FieldType == FieldTypes.Checkbox || Model.FieldType == FieldTypes.Radio || Model.FieldType == FieldTypes.Dropdown ? @Html.Raw("") : @Html.Raw(" style=display:none;")) />
+        </td>
+    }
+</tr>
