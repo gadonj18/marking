@@ -1,6 +1,6 @@
 ﻿@using Marking.Models
 @using Marking.ViewModels
-@model Marking.ViewModels.AssessmentVM
+@model Marking.ViewModels.AssessmentCreateEditVM
 
 <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -8,18 +8,18 @@
             <fieldset>
                 <legend>Assessment Info:</legend>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.AssessmentTitle, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.AssessmentTitle, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.AssessmentTitle, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Subtitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.AssessmentSubtitle, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Subtitle, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Subtitle, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.AssessmentSubtitle, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.AssessmentSubtitle, "", new { @class = "text-danger" })
                     </div>
                 </div>
 

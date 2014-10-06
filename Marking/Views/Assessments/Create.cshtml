@@ -1,7 +1,6 @@
-﻿@model Marking.Models.Assessment
+﻿@model Marking.ViewModels.AssessmentCreateEditVM
 
 @{
-    
     ViewBag.Title = "Create";
     
 }
@@ -11,8 +10,8 @@
     <link href="@Url.Content("~/Content/Assessments/CreateEdit.css")" rel="stylesheet" type="text/css" />
 }
 <a class="BackButton" href="@Url.Action("Index", "Classrooms")">Back to Classrooms</a>
-<h2>New Assignment for: @(ViewBag.Test)</h2>
-<h4>@(ViewBag.Classroom.Title), Grade @(ViewBag.Classroom.Grade)</h4>
+<h2>New Assignment for:</h2>
+<h4>@(Model.ClassroomTitle), Grade @(Model.Grade)</h4>
 
 
 @using (Html.BeginForm("Create", "Assessments", FormMethod.Post, new { enctype = "multipart/form-data" }))

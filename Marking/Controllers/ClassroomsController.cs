@@ -130,29 +130,6 @@ namespace Marking.Controllers
             return View(classroom);
         }
 
-        /*public ActionResult AddAssessment(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Classroom classroom = db.Classrooms.Find(id);
-            if (classroom == null)
-            {
-                return HttpNotFound();
-            }
-
-            List<Assessment> assessments = db.Assessments.Where<Assessment>(x => x.ClassroomID != id).ToList<Assessment>();
-            List<Classroom> classrooms = db.Classrooms.ToList<Classroom>();
-
-            ViewBag.Years = classrooms.OrderBy(x => x.Year).Select(x => x.Year).Distinct<int>();
-            ViewBag.Grades = classrooms.OrderBy(x => x.Grade).Select(x => x.Grade).Distinct<int>();
-            ViewBag.Assessments = assessments;
-            ViewBag.Classrooms = classrooms;
-
-            return View(classroom);
-        }*/
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

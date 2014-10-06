@@ -148,6 +148,7 @@
     <Compile Include="Models\Note.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\AssessmentCreateEditVM.cs" />
     <Compile Include="ViewModels\AttachmentVM.cs" />
     <Compile Include="ViewModels\ClassroomCreateEditVM.cs" />
     <Compile Include="ViewModels\ClassroomListVM.cs" />

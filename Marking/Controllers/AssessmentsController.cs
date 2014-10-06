@@ -18,14 +18,12 @@ namespace Marking.Controllers
     {
         private MarkingContext db = new MarkingContext();
 
-        // GET: Assessments
         public ActionResult Index()
         {
             var assessments = db.Assessments.Include(a => a.Classroom);
             return View(assessments.ToList());
         }        
 
-        // GET: Assessments/Create/1
         public ActionResult Create(int? id)
         {
             if (id == null)
@@ -37,12 +35,12 @@ namespace Marking.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            return View();
+            AssessmentCreateEditVM vm = new AssessmentCreateEditVM();
+            vm.ClassroomTitle = classroom.Title;
+            vm.Grade = classroom.Grade;
+            return View(vm);
         }
 
-        // POST: Assessments/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(int? id, Assessment Assessment)
@@ -170,7 +168,6 @@ namespace Marking.Controllers
             }
         }
 
-        // GET: Assessments/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -238,9 +235,6 @@ namespace Marking.Controllers
             return PartialView("~/Views/Attachments/_NewAttachment.cshtml", new AttachmentVM());
         }
 
-        // POST: Assessments/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int? id, AssessmentVM assessmentVM)
