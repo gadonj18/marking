@@ -54,6 +54,8 @@ namespace Marking.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            vm.ClassroomTitle = classroom.Title;
+            vm.Grade = classroom.Grade;
 
             if (ModelState.IsValid)
             {
@@ -61,13 +63,17 @@ namespace Marking.Controllers
                 {
                     try
                     {
-                        Mapper.CreateMap<AssessmentCreateEditVM, Assessment>();
+                        Mapper.CreateMap<AssessmentCreateEditVM, Assessment>()
+                            .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.AssessmentTitle))
+                            .ForMember(dest => dest.Subtitle, opt => opt.MapFrom(src => src.AssessmentSubtitle));
                         Mapper.CreateMap<AssessmentCreateEditVM.Attachment, Attachment>();
                         Mapper.CreateMap<AssessmentCreateEditVM.Note, Note>();
                         Mapper.CreateMap<AssessmentCreateEditVM.Criterion, Criterion>();
                         Mapper.CreateMap<AssessmentCreateEditVM.DropdownOption, DropdownOption>();
+                        Assessment assessment = Mapper.Map<AssessmentCreateEditVM, Assessment>(vm);
+                        assessment.ClassroomID = classroom.ID;
 
-                        db.Assessments.Add(Assessment);
+                        db.Assessments.Add(assessment);
                         db.SaveChanges();
                         dbContextTransaction.Commit();
                         TempData["Flash"] = "Assessment successfully created";
@@ -82,9 +88,7 @@ namespace Marking.Controllers
                     }
                 }
             }
-
-            ViewBag.Classroom = classroom;
-            return View();
+            return View(vm);
         }
 
         public ActionResult Duplicate(int? id)
@@ -179,20 +183,62 @@ namespace Marking.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Assessment assessment = db.Assessments.Find(id);
+            /*Assessment assessment = db.Assessments.Find(id);
             if (assessment == null)
             {
                 return HttpNotFound();
             }
-            Mapper.CreateMap<Assessment, AssessmentVM>();
-            Mapper.CreateMap<Criterion, CriterionVM>()
-                .ForMember(dest => dest.Marks, opt => opt.Ignore())
+            Mapper.CreateMap<Assessment, AssessmentCreateEditVM>();
+            Mapper.CreateMap<Criterion, AssessmentCreateEditVM.Criterion>()
                 .ForMember(dest => dest.OldFieldType, opt => opt.MapFrom(src => src.FieldType));
-            Mapper.CreateMap<DropdownOption, DropdownOptionVM>();
-            Mapper.CreateMap<Note, NoteVM>();
-            Mapper.CreateMap<Attachment, AttachmentVM>();
-            AssessmentVM assessmentVM = Mapper.Map<Assessment, AssessmentVM>(assessment);
-            return View(assessmentVM);
+            Mapper.CreateMap<DropdownOption, AssessmentCreateEditVM.DropdownOption>();
+            Mapper.CreateMap<Note, AssessmentCreateEditVM.Note>();
+            Mapper.CreateMap<Attachment, AssessmentCreateEditVM.Attachment>();
+            AssessmentVM vm = Mapper.Map<Assessment, AssessmentVM>(assessment);*/
+            var vm = (from assessment in db.Assessments
+                      from classroom in db.Classrooms
+                      where assessment.ID == id
+                        && assessment.ClassroomID == classroom.ID
+                      select new AssessmentCreateEditVM
+                      {
+                          ClassroomTitle = classroom.Title,
+                          Grade = classroom.Grade,
+                          AssessmentTitle = assessment.Title,
+                          AssessmentSubtitle = assessment.Subtitle,
+                          Description = assessment.Description,
+                          GroupWork = assessment.GroupWork,
+                          DateDue = assessment.DateDue,
+                          Attachments = from attachment in db.Attachments
+                                        where attachment.ParentModel == "Assessment"
+                                            && attachment.ParentID == assessment.ID
+                                        select new AssessmentCreateEditVM.Attachment
+                                        {
+                                            ID = attachment.ID,
+                                            ParentID = attachment.ParentID,
+                                            ParentModel = attachment.ParentModel,
+                                            Title = attachment.Title,
+                                            Filename = attachment.Filename,
+                                            Removed = false,
+                                            DateCreated = attachment.DateCreated
+                                        },
+                        NewAttachments = new List<AssessmentCreateEditVM.NewAttachment>().AsQueryable(),
+                        Notes = from note in db.Notes
+                                where note.ParentModel == "Assessment"
+                                    && note.ParentID == assessment.ID
+                                select new AssessmentCreateEditVM.Note
+                                {
+                                    ID = note.ID,
+                                    ParentID = note.ParentID,
+                                    ParentModel = note.ParentModel,
+                                    Text = note.Text,
+                                    DateCreated = note.DateCreated
+                                }
+                      }).FirstOrDefault();
+            if (vm == null)
+            {
+                return HttpNotFound();
+            }
+            return View(vm);
         }
 
         [HttpPost]
