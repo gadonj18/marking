@@ -9,7 +9,6 @@ namespace Marking.ViewModels
     public class AttachmentVM
     {
         public int ID { get; set; }
-        public AttachmentTypes Type { get; set; }
         public string Title { get; set; }
         public string Filename { get; set; }
         public bool Removed { get; set; }

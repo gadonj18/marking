@@ -195,7 +195,7 @@ namespace Marking.Controllers
             Mapper.CreateMap<Note, AssessmentCreateEditVM.Note>();
             Mapper.CreateMap<Attachment, AssessmentCreateEditVM.Attachment>();
             AssessmentVM vm = Mapper.Map<Assessment, AssessmentVM>(assessment);*/
-            var vm = (from assessment in db.Assessments
+            var vm = from assessment in db.Assessments
                       from classroom in db.Classrooms
                       where assessment.ID == id
                         && assessment.ClassroomID == classroom.ID
@@ -233,7 +233,7 @@ namespace Marking.Controllers
                                     Text = note.Text,
                                     DateCreated = note.DateCreated
                                 }
-                      }).FirstOrDefault();
+                      };
             if (vm == null)
             {
                 return HttpNotFound();
