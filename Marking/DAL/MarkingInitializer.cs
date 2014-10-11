@@ -27,36 +27,43 @@ namespace Marking.DAL
             assessments.ForEach(s => context.Assessments.Add(s));
             context.SaveChanges();
 
+            var attachments = new List<Attachment>
+            {
+                new Attachment{ParentID=1,ParentModel="Assessment",Title="My File Name",Filename="SomeFileName.jpg",FilenameInternal="mission-bg6.jpg"}
+            };
+            attachments.ForEach(s => context.Attachments.Add(s));
+            context.SaveChanges();
+
             var criteria = new List<Criterion>
             {
                 new Criterion{
                     AssessmentID=1,
-                    FieldType=FieldTypes.Checkbox,
+                    FieldType="checkbox",
                     Label="Checkbox",
                     FieldOrder=1,
                     Default=true
                 },
                 new Criterion{
                     AssessmentID=1,
-                    FieldType=FieldTypes.Textbox,
+                    FieldType="textbox",
                     Label="Textbox",
                     FieldOrder=2
                 },
                 new Criterion{
                     AssessmentID=1,
-                    FieldType=FieldTypes.Radio,
+                    FieldType="radio",
                     Label="Radio",
                     FieldOrder=3
                 },
                 new Criterion{
                     AssessmentID=1,
-                    FieldType=FieldTypes.TextboxMulti,
+                    FieldType="textboxmulti",
                     Label="TextboxMulti",
                     FieldOrder=4
                 },
                 new Criterion{
                     AssessmentID=1,
-                    FieldType=FieldTypes.Dropdown,
+                    FieldType="dropdown",
                     Label="Dropdown",
                     FieldOrder=5
                 }

@@ -9,8 +9,8 @@ namespace Marking.ViewModels
     public class CriterionVM
     {
         public int ID { get; set; }
-        public FieldTypes? OldFieldType { get; set; }
-        public FieldTypes? FieldType { get; set; }
+        public string OldFieldType { get; set; }
+        public string FieldType { get; set; }
         public string Label { get; set; }
         public IEnumerable<DropdownOptionVM> Options { get; set; }
         public IEnumerable<MarkVM> Marks { get; set; }

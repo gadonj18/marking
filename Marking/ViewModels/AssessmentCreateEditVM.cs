@@ -29,19 +29,18 @@ namespace Marking.ViewModels
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public DateTime? DateDue { get; set; }
 
-        public IQueryable<Attachment> Attachments { get; set; }
-        public IQueryable<NewAttachment> NewAttachments { get; set; }
-        public IQueryable<Note> Notes { get; set; }
-        public IQueryable<Criterion> Criteria { get; set; }
+        public IEnumerable<Attachment> Attachments { get; set; }
+        public IEnumerable<NewAttachment> NewAttachments { get; set; }
+        public IEnumerable<Note> Notes { get; set; }
+        public IEnumerable<Criterion> Criteria { get; set; }
 
         public class Attachment
         {
             public int ID { get; set; }
-            public int ParentID { get; set; }
-            public string ParentModel { get; set; }
             [Required(ErrorMessage = "Required")]
             public string Title { get; set; }
             public string Filename { get; set; }
+            public string FilenameInternal { get; set; }
             public bool Removed { get; set; }
             [Required(ErrorMessage = "Required")]
             public DateTime? DateCreated { get; set; }
@@ -75,14 +74,14 @@ namespace Marking.ViewModels
         public class Criterion
         {
             public int ID { get; set; }
-            public Marking.Models.FieldTypes? OldFieldType { get; set; }
+            public string OldFieldType { get; set; }
             [Required(ErrorMessage = "Required")]
-            public Marking.Models.FieldTypes? FieldType { get; set; }
+            public string FieldType { get; set; }
             [Required(ErrorMessage = "Required")]
             public string Label { get; set; }
             public int FieldOrder { get; set; }
             public bool Removed { get; set; }
-            public List<DropdownOption> Options { get; set; }
+            public IEnumerable<DropdownOption> Options { get; set; }
         }
 
         public class DropdownOption
@@ -94,7 +93,6 @@ namespace Marking.ViewModels
             public string Value { get; set; }
             public int OptionOrder { get; set; }
             public bool Removed { get; set; }
-            public bool NewOption { get; set; }
         }
     }
 }

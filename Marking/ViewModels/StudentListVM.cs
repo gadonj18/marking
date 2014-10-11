@@ -26,7 +26,7 @@ namespace Marking.ViewModels
             public string Value { get; set; }
             public int StudentID { get; set; }
             public int CriterionID { get; set; }
-            public FieldTypes FieldType { get; set; }
+            public string FieldType { get; set; }
             public string Label { get; set; }
             public IEnumerable<StudentListVMOption> Options { get; set; }
         }

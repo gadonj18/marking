@@ -1,6 +1,16 @@
 ﻿@using Marking.Models
 @using HtmlHelpers.BeginCollectionItem
 @model Marking.ViewModels.AssessmentCreateEditVM.Criterion
+@{
+    IEnumerable<SelectListItem> typeDropdown = new[] {
+        new SelectListItem { Value = "", Text = "" },
+        new SelectListItem { Value = "textbox", Text = "Textbox" },
+        new SelectListItem { Value = "textboxmulti", Text = "Textbox (Multi-Line)" },
+        new SelectListItem { Value = "dropdown", Text = "Dropdown" },
+        new SelectListItem { Value = "radio", Text = "Radio Buttons" },
+        new SelectListItem { Value = "checkbox", Text = "Checkboxes" }
+    };
+}
 <tr class="CriteriaRow">
     @using (Html.BeginCollectionItem("Criteria"))
     {
@@ -12,7 +22,7 @@
         </td>
         <td class="FieldTypeCol">
             @Html.HiddenFor(model => model.OldFieldType, new { @class = "OldFieldType" })
-            @Html.EnumDropDownListFor(model => model.FieldType, new { @class = "form-control FieldType" })
+            @Html.DropDownListFor(model => model.FieldType, typeDropdown, new { @class = "form-control FieldType" })
         </td>
         <td class="FieldLabelCol">
             @Html.EditorFor(model => model.Label, new { htmlAttributes = new { @class = "form-control FieldLabel" } })
@@ -27,7 +37,7 @@
             }
         </td>
         <td class="AddOptionRow">
-            <input type="button" class="AddOptionButton btn btn-default" value="+ Option"@(Model.FieldType == FieldTypes.Checkbox || Model.FieldType == FieldTypes.Radio || Model.FieldType == FieldTypes.Dropdown ? @Html.Raw("") : @Html.Raw(" style=display:none;")) />
+            <input type="button" class="AddOptionButton btn btn-default" value="+ Option"@(Model.FieldType == "Checkbox" || Model.FieldType == "Radio" || Model.FieldType == "Dropdown" ? @Html.Raw("") : @Html.Raw(" style=display:none;")) />
         </td>
     }
 </tr>

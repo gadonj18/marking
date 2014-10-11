@@ -12,6 +12,6 @@ namespace Marking.Models
         public string ParentModel { get; set; }
         public string Title { get; set; }
         public string Filename { get; set; }
-        public int Filesize { get; set; }
+        public string FilenameInternal { get; set; }
     }
 }

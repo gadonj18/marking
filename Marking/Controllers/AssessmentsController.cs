@@ -183,19 +183,7 @@ namespace Marking.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            /*Assessment assessment = db.Assessments.Find(id);
-            if (assessment == null)
-            {
-                return HttpNotFound();
-            }
-            Mapper.CreateMap<Assessment, AssessmentCreateEditVM>();
-            Mapper.CreateMap<Criterion, AssessmentCreateEditVM.Criterion>()
-                .ForMember(dest => dest.OldFieldType, opt => opt.MapFrom(src => src.FieldType));
-            Mapper.CreateMap<DropdownOption, AssessmentCreateEditVM.DropdownOption>();
-            Mapper.CreateMap<Note, AssessmentCreateEditVM.Note>();
-            Mapper.CreateMap<Attachment, AssessmentCreateEditVM.Attachment>();
-            AssessmentVM vm = Mapper.Map<Assessment, AssessmentVM>(assessment);*/
-            var vm = from assessment in db.Assessments
+            var vm = (from assessment in db.Assessments
                       from classroom in db.Classrooms
                       where assessment.ID == id
                         && assessment.ClassroomID == classroom.ID
@@ -214,26 +202,45 @@ namespace Marking.Controllers
                                         select new AssessmentCreateEditVM.Attachment
                                         {
                                             ID = attachment.ID,
-                                            ParentID = attachment.ParentID,
-                                            ParentModel = attachment.ParentModel,
                                             Title = attachment.Title,
                                             Filename = attachment.Filename,
                                             Removed = false,
                                             DateCreated = attachment.DateCreated
                                         },
-                        NewAttachments = new List<AssessmentCreateEditVM.NewAttachment>().AsQueryable(),
-                        Notes = from note in db.Notes
-                                where note.ParentModel == "Assessment"
-                                    && note.ParentID == assessment.ID
-                                select new AssessmentCreateEditVM.Note
-                                {
-                                    ID = note.ID,
-                                    ParentID = note.ParentID,
-                                    ParentModel = note.ParentModel,
-                                    Text = note.Text,
-                                    DateCreated = note.DateCreated
-                                }
-                      };
+                          Notes = from note in db.Notes 
+                                  where note.ParentModel == "Assessment" 
+                                    && note.ParentID == assessment.ID 
+                                  select new AssessmentCreateEditVM.Note
+                                  {
+                                      ID = note.ID,
+                                      ParentID = note.ParentID,
+                                      ParentModel = note.ParentModel,
+                                      Text = note.Text,
+                                      DateCreated = note.DateCreated
+                                  },
+                          Criteria = from criterion in db.Criteria
+                                     where criterion.AssessmentID == assessment.ID
+                                     select new AssessmentCreateEditVM.Criterion
+                                     {
+                                         ID = criterion.ID,
+                                         OldFieldType = criterion.FieldType,
+                                         FieldType = criterion.FieldType,
+                                         Label = criterion.Label,
+                                         FieldOrder = criterion.FieldOrder,
+                                         Removed = false,
+                                         Options = from option in db.DropdownOptions
+                                                   where option.CriterionID == criterion.ID
+                                                   select new AssessmentCreateEditVM.DropdownOption
+                                                   {
+                                                       ID = option.ID,
+                                                       Key = option.Key,
+                                                       Value = option.Value,
+                                                       OptionOrder = option.OptionOrder,
+                                                       Removed = false
+                                                   }
+                                     }
+
+                      }).SingleOrDefault();
             if (vm == null)
             {
                 return HttpNotFound();

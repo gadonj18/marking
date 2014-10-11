@@ -5,12 +5,10 @@ using System.Web;
 
 namespace Marking.Models
 {
-    public enum FieldTypes : int { Textbox, TextboxMulti, Radio, Dropdown, Checkbox, Header }
-
     public class Criterion : _BaseModel
     {
         public int ID { get; set; }
-        public FieldTypes FieldType { get; set; }
+        public string FieldType { get; set; }
         public string Label { get; set; }
         public int FieldOrder { get; set; }
         public bool Default { get; set; }

@@ -127,6 +127,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AssessmentsController.cs" />
+    <Compile Include="Controllers\AttachmentController.cs" />
     <Compile Include="Controllers\ClassroomsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MarksController.cs" />
@@ -169,6 +170,7 @@
     <Content Include="Content\Assessments\Duplicate.css" />
     <Content Include="Content\Classrooms\Index.css" />
     <Content Include="Content\Marks\ListForAssessment.css" />
+    <Content Include="Content\uploads\mission-bg6.jpg" />
     <Content Include="Scripts\Assessments\CreateEdit.js" />
     <Content Include="Scripts\Assessments\Duplicate.js" />
     <Content Include="Scripts\Classrooms\Index.js" />
@@ -328,6 +330,7 @@
   <ItemGroup>
     <Folder Include="App_Start\App_Data\" />
     <Folder Include="Migrations\" />
+    <Folder Include="Views\Attachment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
