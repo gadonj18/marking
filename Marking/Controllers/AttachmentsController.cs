@@ -27,7 +27,7 @@ namespace Marking.Controllers
                 Inline = false
             };
             Response.AppendHeader("Content-Disposition", cd.ToString());
-            return new FilePathResult("~/Content/uploads/" + attachment.FilenameInternal, MediaTypeNames.Application.Octet);
+            return new FilePathResult("~/App_Data/uploads/" + attachment.FilenameInternal, MediaTypeNames.Application.Octet);
         }
 
         protected override void Dispose(bool disposing)

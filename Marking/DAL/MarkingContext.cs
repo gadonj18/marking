@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -23,6 +24,24 @@ namespace Marking.DAL
         public DbSet<Mark> Marks { get; set; }
         public DbSet<Note> Notes { get; set; }
         public DbSet<Student> Students { get; set; }
+
+        public string UploadAttachment(HttpPostedFileBase File)
+        {
+            if (File.ContentLength <= 0)
+            {
+                throw new Exception("Empty file");
+            }
+            HttpServerUtility Server = HttpContext.Current.Server;
+            string Filename = Path.GetFileName(File.FileName);
+            string FilenameInternal = Filename;
+            while(System.IO.File.Exists(Server.MapPath("~/App_Data/uploads/" + FilenameInternal)))
+            {
+                FilenameInternal = Guid.NewGuid().ToString() + Filename;
+            }
+            string path = Path.Combine(Server.MapPath("~/App_Data/uploads"), FilenameInternal);
+            File.SaveAs(path);
+            return FilenameInternal;
+        }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

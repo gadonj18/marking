@@ -63,10 +63,15 @@ namespace Marking.Controllers
                 {
                     try
                     {
+                        foreach (var attachment in vm.NewAttachments)
+                        {
+                           attachment.FilenameInternal = db.UploadAttachment(attachment.File);
+                        }
+
                         Mapper.CreateMap<AssessmentCreateEditVM, Assessment>()
                             .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.AssessmentTitle))
                             .ForMember(dest => dest.Subtitle, opt => opt.MapFrom(src => src.AssessmentSubtitle));
-                        Mapper.CreateMap<AssessmentCreateEditVM.Attachment, Attachment>();
+                        Mapper.CreateMap<AssessmentCreateEditVM.NewAttachment, Attachment>();
                         Mapper.CreateMap<AssessmentCreateEditVM.Note, Note>();
                         Mapper.CreateMap<AssessmentCreateEditVM.Criterion, Criterion>();
                         Mapper.CreateMap<AssessmentCreateEditVM.DropdownOption, DropdownOption>();
@@ -290,7 +295,7 @@ namespace Marking.Controllers
             {
                 return HttpNotFound();
             }
-            return PartialView("~/Views/Attachments/_NewAttachment.cshtml", new AssessmentCreateEditVM.Attachment());
+            return PartialView("~/Views/Attachments/_NewAttachment.cshtml", new AssessmentCreateEditVM.NewAttachment());
         }
 
         [HttpPost]
@@ -362,6 +367,7 @@ namespace Marking.Controllers
                             }
                         }
                         db.Entry(assessment).State = EntityState.Modified;
+
 
                         db.SaveChanges();
                         dbContextTransaction.Commit();

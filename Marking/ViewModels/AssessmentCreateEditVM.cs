@@ -52,6 +52,7 @@ namespace Marking.ViewModels
             public string Title { get; set; }
             [Required(ErrorMessage = "Required")]
             public HttpPostedFileBase File { get; set; }
+            public string FilenameInternal { get; set; }
         }
 
         public class Note
