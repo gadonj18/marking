@@ -1,22 +1,12 @@
-﻿@model Marking.ViewModels.ClassroomEditVM
-
-@{
-    ViewBag.Title = "Edit";
-}
+﻿@model Marking.ViewModels.Classroom.CreateEdit
 <a class="BackButton" href="@Url.Action("Index", "Classrooms")">Back to Classrooms</a>
-<h2>Edit</h2>
-
-
-@using (Html.BeginForm())
+@using (Html.BeginForm("CreateEdit", "Classrooms"))
 {
     @Html.AntiForgeryToken()
-    
     <div class="form-horizontal">
-        <h4>Classroom</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ID)
-
         <div class="form-group">
             @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -28,7 +18,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Grade, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Grade, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.Grade, Model.GradeList, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Grade, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -36,7 +26,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.Year, Model.YearList, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
             </div>
         </div>

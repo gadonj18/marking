@@ -14,7 +14,7 @@ namespace Marking.Models
 
         public virtual ICollection<Enrollment> Enrollments { get; set; }
         public virtual ICollection<Mark> Marks { get; set; }
-        public virtual ICollection<Attachment> Attachments { get; set; }
+        public virtual ICollection<StudentAttachment> Attachments { get; set; }
         public virtual ICollection<Note> Notes { get; set; }
     }
 }

@@ -13,9 +13,9 @@ namespace Marking.DAL
         {
             var classrooms = new List<Classroom>
             {
-                new Classroom{Title="Miss Beecroft",Grade=2,Year=2014},
-                new Classroom{Title="Miss Cherett",Grade=2,Year=2014},
-                new Classroom{Title="Miss Ryan",Grade=4,Year=2014}
+                new Classroom{Title="Miss Beecroft",Grade="Grade 2",Year=2014},
+                new Classroom{Title="Miss Cherett",Grade="Grade 2",Year=2014},
+                new Classroom{Title="Miss Ryan",Grade="Grade 4",Year=2014}
             };
             classrooms.ForEach(s => context.Classrooms.Add(s));
             context.SaveChanges();
@@ -27,11 +27,11 @@ namespace Marking.DAL
             assessments.ForEach(s => context.Assessments.Add(s));
             context.SaveChanges();
 
-            var attachments = new List<Attachment>
+            var attachments = new List<AssessmentAttachment>
             {
-                new Attachment{ParentID=1,ParentModel="Assessment",Title="My File Name",Filename="SomeFileName.jpg",FilenameInternal="mission-bg6.jpg"}
+                new AssessmentAttachment{AssessmentID=1,Title="My File Name",Filename="SomeFileName.jpg",FilenameInternal="mission-bg6.jpg"}
             };
-            attachments.ForEach(s => context.Attachments.Add(s));
+            attachments.ForEach(s => context.AssessmentAttachments.Add(s));
             context.SaveChanges();
 
             var criteria = new List<Criterion>

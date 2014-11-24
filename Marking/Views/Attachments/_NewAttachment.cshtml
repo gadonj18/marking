@@ -1,11 +1,10 @@
 ﻿@model Marking.ViewModels.AssessmentCreateEditVM.NewAttachment
 @using HtmlHelpers.BeginCollectionItem
-@using (Html.BeginCollectionItem("Attachments"))
+@using (Html.BeginCollectionItem("NewAttachments"))
 {
     <div class="AttachmentRow">
         @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
         @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ID)
         @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control AttachmentTitle", placeholder = "File Title" } })
         @Html.TextBoxFor(model => model.File, new { type = "file", @class = "AttachmentUpload" })
         <a href="javascript:void(0)" class="RemoveNewAttachment">Remove</a>

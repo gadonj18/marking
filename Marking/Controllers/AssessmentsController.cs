@@ -11,45 +11,54 @@ using Marking.Models;
 using Marking.ViewModels;
 using AutoMapper;
 using Marking.Library;
+using Marking.DAL.Mapping;
+using VMs = Marking.ViewModels.Assessments;
 
 namespace Marking.Controllers
 {
     public class AssessmentsController : Controller
     {
-        private MarkingContext db = new MarkingContext();
+        private MarkingContext db;
+        public AssessmentMapper vmMapper;
 
-        public ActionResult Index()
+        public AssessmentsController()
         {
-            var assessments = db.Assessments.Include(a => a.Classroom);
-            return View(assessments.ToList());
-        }        
+            db = new MarkingContext();
+            vmMapper = new AssessmentMapper(db);
+        }
 
-        public ActionResult Create(int? id)
+        // /Classrooms/1/Create
+        // /Classrooms/1/Edit/1
+        [Route("Classrooms/{classroomID:int}/Create")]
+        [Route("Classrooms/{classroomID:int}/Edit/{id:int}")]
+        public ActionResult CreateEdit(int classroomID, int? id)
         {
+            VMs.CreateEdit vm;
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                vm = vmMapper.CreateEdit.CreateNew(classroomID);
             }
-            Classroom classroom = db.Classrooms.Find(id);
-            if (classroom == null)
+            else
+            {
+                vm = vmMapper.CreateEdit.CreateFromID((int)id);
+            }
+            if (vm == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AssessmentCreateEditVM vm = new AssessmentCreateEditVM();
-            vm.ClassroomTitle = classroom.Title;
-            vm.Grade = classroom.Grade;
             return View(vm);
         }
 
+        [Route("Classrooms/{classroomID:int}/CreateEdit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(int? id, AssessmentCreateEditVM vm)
+        public ActionResult CreateEdit(int classroomID, VMs.CreateEdit vm)
         {
-            if (id == null)
+            if (classroomID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Classroom classroom = db.Classrooms.Find(id);
+            Classroom classroom = db.Classrooms.Find(classroomID);
             if (classroom == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -63,26 +72,33 @@ namespace Marking.Controllers
                 {
                     try
                     {
-                        foreach (var attachment in vm.NewAttachments)
-                        {
-                           attachment.FilenameInternal = db.UploadAttachment(attachment.File);
-                        }
-
-                        Mapper.CreateMap<AssessmentCreateEditVM, Assessment>()
+                        /*Mapper.CreateMap<AssessmentCreateEditVM, Assessment>()
                             .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.AssessmentTitle))
-                            .ForMember(dest => dest.Subtitle, opt => opt.MapFrom(src => src.AssessmentSubtitle));
-                        Mapper.CreateMap<AssessmentCreateEditVM.NewAttachment, Attachment>();
+                            .ForMember(dest => dest.Subtitle, opt => opt.MapFrom(src => src.AssessmentSubtitle))
+                            .ForMember(dest => dest.Attachments, opt => opt.Ignore());
                         Mapper.CreateMap<AssessmentCreateEditVM.Note, Note>();
                         Mapper.CreateMap<AssessmentCreateEditVM.Criterion, Criterion>();
                         Mapper.CreateMap<AssessmentCreateEditVM.DropdownOption, DropdownOption>();
                         Assessment assessment = Mapper.Map<AssessmentCreateEditVM, Assessment>(vm);
                         assessment.ClassroomID = classroom.ID;
 
+                        assessment.Attachments = new List<AssessmentAttachment>();
+                        foreach (var attachmentVM in vm.NewAttachments)
+                        {
+                            attachmentVM.ContentType = attachmentVM.File.ContentType;
+                            attachmentVM.Filename = attachmentVM.File.FileName;
+                            attachmentVM.FilenameInternal = db.UploadAttachment(attachmentVM.File);
+                            Mapper.CreateMap<AssessmentCreateEditVM.NewAttachment, AssessmentAttachment>();
+                            AssessmentAttachment attachment = Mapper.Map<AssessmentCreateEditVM.NewAttachment, AssessmentAttachment>(attachmentVM);
+                            assessment.Attachments.Add(attachment);
+                        }
+
+                        db.Entry(assessment).State = EntityState.Added;
                         db.Assessments.Add(assessment);
                         db.SaveChanges();
                         dbContextTransaction.Commit();
                         TempData["Flash"] = "Assessment successfully created";
-                        TempData["FlashType"] = "GreenFlash";
+                        TempData["FlashType"] = "GreenFlash";*/
                         return RedirectToAction("Index", "Classrooms");
                     }
                     catch (Exception)
@@ -96,7 +112,7 @@ namespace Marking.Controllers
             return View(vm);
         }
 
-        public ActionResult Duplicate(int? id)
+        /*public ActionResult Duplicate(int? id)
         {
             if (id == null)
             {
@@ -201,9 +217,8 @@ namespace Marking.Controllers
                           Description = assessment.Description,
                           GroupWork = assessment.GroupWork,
                           DateDue = assessment.DateDue,
-                          Attachments = from attachment in db.Attachments
-                                        where attachment.ParentModel == "Assessment"
-                                            && attachment.ParentID == assessment.ID
+                          Attachments = from attachment in db.AssessmentAttachments
+                                        where attachment.AssessmentID == assessment.ID
                                         select new AssessmentCreateEditVM.Attachment
                                         {
                                             ID = attachment.ID,
@@ -376,7 +391,7 @@ namespace Marking.Controllers
 
                         return RedirectToAction("Index", "Classrooms", null);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         TempData["Flash"] = "Unexpected error while saving assessment";
                         dbContextTransaction.Rollback();
@@ -394,6 +409,6 @@ namespace Marking.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
+        }*/
     }
 }

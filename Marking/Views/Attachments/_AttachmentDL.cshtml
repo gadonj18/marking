@@ -5,7 +5,7 @@
     <div class="AttachmentRow">
         @Html.HiddenFor(model => model.ID)
         @Html.HiddenFor(model => model.Removed, new { @class = "AttachmentRemoved" })
-        @Html.ActionLink(Model.Title, "Download", "Attachments", new { id = Model.ID }, null)
+        @Html.ActionLink(Model.Title, "Download", "Attachments", new { id = Model.ID, type = "Assessment" }, null)
         <span>@(Model.DateCreated)</span>
         <a href="javascript:void(0)" class="RemoveAttachment">Remove</a>
     </div>

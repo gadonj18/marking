@@ -8,7 +8,7 @@ namespace Marking.ViewModels
 {
     public class StudentListVM
     {
-        public string ClassroomTitle { get; set; }
+        /*public string ClassroomTitle { get; set; }
         public int Grade { get; set; }
         public string AssessmentTitle { get; set; }
         public string AssessmentSubtitle { get; set; }
@@ -35,6 +35,6 @@ namespace Marking.ViewModels
         {
             public string Key { get; set; }
             public string Value { get; set; }
-        }
+        }*/
     }
 }

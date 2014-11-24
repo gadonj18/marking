@@ -16,7 +16,9 @@ namespace Marking.DAL
         public MarkingContext() : base("MarkingContext")  { }
 
         public DbSet<Assessment> Assessments { get; set; }
-        public DbSet<Attachment> Attachments { get; set; }
+        public DbSet<AssessmentAttachment> AssessmentAttachments { get; set; }
+        public DbSet<StudentAttachment> StudentAttachments { get; set; }
+        public DbSet<ClassroomAttachment> ClassroomAttachments { get; set; }
         public DbSet<Classroom> Classrooms { get; set; }
         public DbSet<Criterion> Criteria { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
@@ -34,11 +36,11 @@ namespace Marking.DAL
             HttpServerUtility Server = HttpContext.Current.Server;
             string Filename = Path.GetFileName(File.FileName);
             string FilenameInternal = Filename;
-            while(System.IO.File.Exists(Server.MapPath("~/App_Data/uploads/" + FilenameInternal)))
+            while(System.IO.File.Exists(Server.MapPath("~/Content/uploads/" + FilenameInternal)))
             {
-                FilenameInternal = Guid.NewGuid().ToString() + Filename;
+                FilenameInternal = Guid.NewGuid().ToString() + "_" + Filename;
             }
-            string path = Path.Combine(Server.MapPath("~/App_Data/uploads"), FilenameInternal);
+            string path = Path.Combine(Server.MapPath("~/Content/uploads"), FilenameInternal);
             File.SaveAs(path);
             return FilenameInternal;
         }

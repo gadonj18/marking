@@ -1,53 +1,69 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
 using System.Net;
-using System.Web;
+using System.Data.Entity;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Marking.DAL;
+using Marking.DAL.Mapping;
 using Marking.Models;
-using Marking.ViewModels;
+using VMs = Marking.ViewModels.Classroom;
 using AutoMapper;
+using Marking.ViewModels.Classroom;
 
 namespace Marking.Controllers
 {
     public class ClassroomsController : Controller
     {
-        private MarkingContext db = new MarkingContext();
+        private MarkingContext db;
+        private ClassroomMapper vmMapper;
 
-        public ActionResult Index(int? year = null)
+        public ClassroomsController()
         {
-            if (year == null) year = DateTime.Now.Year;
-            var classrooms = (from classroom in db.Classrooms
-                             where classroom.Year == year
-                             select new ClassroomListVM
-                             {
-                                 ID = classroom.ID,
-                                 Title = classroom.Title,
-                                 Grade = classroom.Grade,
-                                 Assessments = from assess in db.Assessments
-                                               where assess.ClassroomID == classroom.ID
-                                               select new ClassroomListVM.ClassroomListVMAssessment
-                                               {
-                                                   ID = assess.ID,
-                                                   Title = assess.Title,
-                                                   Subtitle = assess.Subtitle,
-                                                   Description = assess.Description
-                                               }
-                             }).ToList();
-            return View(classrooms);
+            db = new MarkingContext();
+            vmMapper = new ClassroomMapper(db);
         }
 
-        public ActionResult Create()
+        // /Classrooms
+        public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Classrooms", new { year = DateTime.Now.Year });
         }
 
+        // /Classrooms/2013
+        [Route("Classrooms/{year:int}")]
+        public ActionResult Index(int year)
+        {
+            var vm = vmMapper.Index.ListByYear((int)year);
+            return View(vm);
+        }
+
+        // /Classrooms/Create
+        // /Classrooms/Edit/1
+        [Route("Classrooms/Create")]
+        [Route("Classrooms/Edit/{id}")]
+        public ActionResult CreateEdit(int? id)
+        {
+            VMs.CreateEdit vm;
+            if (id == null)
+            {
+                vm = vmMapper.CreateEdit.CreateNew();
+            }
+            else
+            {
+                vm = vmMapper.CreateEdit.CreateFromID((int)id);
+            }
+            if (vm == null)
+            {
+                return HttpNotFound();
+            }
+            return View(vm);
+        }
+
+        // /Classrooms/CreateEdit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ClassroomCreateEditVM classroomVM)
+        public ActionResult CreateEdit(VMs.CreateEdit vm)
         {
             if (ModelState.IsValid)
             {
@@ -55,10 +71,7 @@ namespace Marking.Controllers
                 {
                     try
                     {
-                        Mapper.CreateMap<ClassroomCreateEditVM, Classroom>();
-                        Classroom classroom = Mapper.Map<ClassroomCreateEditVM, Classroom>(classroomVM);
-                        db.Classrooms.Add(classroom);
-                        db.SaveChanges();
+                        vmMapper.CreateEdit.ApplyChanges(vm);
                         dbContextTransaction.Commit();
                         TempData["Flash"] = "Classroom successfully created";
                         TempData["FlashType"] = "GreenFlash";
@@ -71,63 +84,7 @@ namespace Marking.Controllers
                     }
                 }
             }
-            return View(classroomVM);
-        }
-
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Classroom classroom = db.Classrooms.Find(id);
-            if (classroom == null)
-            {
-                return HttpNotFound();
-            }
-            Mapper.CreateMap<Classroom, ClassroomCreateEditVM>();
-            ClassroomCreateEditVM classroomVM = Mapper.Map<Classroom, ClassroomCreateEditVM>(classroom);
-            return View(classroomVM);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int? id, ClassroomCreateEditVM classroomVM)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Classroom classroom = db.Classrooms.Find(id);
-            if (classroom == null)
-            {
-                return HttpNotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                using (var dbContextTransaction = db.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        Mapper.CreateMap<ClassroomCreateEditVM, Classroom>();
-                        Mapper.Map<ClassroomCreateEditVM, Classroom>(classroomVM, classroom);
-
-                        db.Entry(classroom).State = EntityState.Modified;
-                        db.SaveChanges();
-                        dbContextTransaction.Commit();
-                        TempData["Flash"] = "Classroom successfully saved";
-                        TempData["FlashType"] = "GreenFlash";
-                        return RedirectToAction("Index");
-                    }
-                    catch (Exception ex)
-                    {
-                        dbContextTransaction.Rollback();
-                        TempData["Flash"] = "Unexpected error saving classroom: " + ex.Message;
-                    }
-                }
-            }
-            return View(classroom);
+            return View(vmMapper.CreateEdit.Prep(vm));
         }
 
         protected override void Dispose(bool disposing)

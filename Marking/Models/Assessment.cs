@@ -19,7 +19,7 @@ namespace Marking.Models
         public int ClassroomID { get; set; }
         public virtual Classroom Classroom { get; set; }
         public virtual ICollection<Note> Notes { get; set; }
-        public virtual ICollection<Attachment> Attachments { get; set; }
+        public virtual ICollection<AssessmentAttachment> Attachments { get; set; }
         public virtual IList<Criterion> Criteria { get; set; }
     }
 }

@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace Marking.Controllers
 {
-    public class MarksController : Controller
+    /*public class MarksController : Controller
     {
         private MarkingContext db = new MarkingContext();
 
@@ -110,5 +110,5 @@ namespace Marking.Controllers
             }
             base.Dispose(disposing);
         }
-    }
+    }*/
 }

@@ -14,20 +14,34 @@ namespace Marking.Controllers
     {
         private MarkingContext db = new MarkingContext();
 
-        public ActionResult Download(int? id)
+        public ActionResult Download(int? id, string type)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Attachment attachment = db.Attachments.Find(id);
+            _BaseAttachment attachment;
+            switch (type)
+            {
+                case "Assessment":
+                    attachment = db.AssessmentAttachments.Find(id);
+                    break;
+                case "Classroom":
+                    attachment = db.ClassroomAttachments.Find(id);
+                    break;
+                case "Student":
+                    attachment = db.StudentAttachments.Find(id);
+                    break;
+                default:
+                    throw new Exception("Missing/Invalid attachment type");
+            }
             ContentDisposition cd = new ContentDisposition
             { 
                 FileName = attachment.Filename,
                 Inline = false
             };
             Response.AppendHeader("Content-Disposition", cd.ToString());
-            return new FilePathResult("~/App_Data/uploads/" + attachment.FilenameInternal, MediaTypeNames.Application.Octet);
+            return new FilePathResult("~/Content/uploads/" + attachment.FilenameInternal, MediaTypeNames.Application.Octet);
         }
 
         protected override void Dispose(bool disposing)

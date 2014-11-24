@@ -132,16 +132,27 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MarksController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
+    <Compile Include="DAL\Mapping\Assessment.cs" />
+    <Compile Include="DAL\Mapping\AssessmentMapper.cs" />
+    <Compile Include="DAL\Mapping\Attachment.cs" />
+    <Compile Include="DAL\Mapping\ClassroomMapper.cs" />
+    <Compile Include="DAL\Mapping\Criterion.cs" />
+    <Compile Include="DAL\Mapping\DropdownOption.cs" />
+    <Compile Include="DAL\Mapping\Note.cs" />
+    <Compile Include="DAL\Mapping\Student.cs" />
     <Compile Include="DAL\MarkingContext.cs" />
     <Compile Include="DAL\MarkingInitializer.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Library\Extensions.cs" />
+    <Compile Include="Models\AssessmentAttachment.cs" />
+    <Compile Include="Models\ClassroomAttachment.cs" />
+    <Compile Include="Models\StudentAttachment.cs" />
     <Compile Include="Models\_BaseModel.cs" />
     <Compile Include="Models\DropdownOption.cs" />
     <Compile Include="Models\Assessment.cs" />
-    <Compile Include="Models\Attachment.cs" />
+    <Compile Include="Models\_BaseAttachment.cs" />
     <Compile Include="Models\Classroom.cs" />
     <Compile Include="Models\Criterion.cs" />
     <Compile Include="Models\Enrollment.cs" />
@@ -149,19 +160,24 @@
     <Compile Include="Models\Note.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\AssessmentCreateEditVM.cs" />
-    <Compile Include="ViewModels\AttachmentVM.cs" />
-    <Compile Include="ViewModels\ClassroomCreateEditVM.cs" />
-    <Compile Include="ViewModels\ClassroomListVM.cs" />
-    <Compile Include="ViewModels\ClassroomVM.cs" />
-    <Compile Include="ViewModels\CriterionVM.cs" />
-    <Compile Include="ViewModels\DropdownOptionVM.cs" />
-    <Compile Include="ViewModels\AssessmentVM.cs" />
-    <Compile Include="ViewModels\DuplicateAssessmentVM.cs" />
-    <Compile Include="ViewModels\StudentListVM.cs" />
-    <Compile Include="ViewModels\MarkVM.cs" />
-    <Compile Include="ViewModels\NoteVM.cs" />
-    <Compile Include="ViewModels\StudentVM.cs" />
+    <Compile Include="ViewModels\Assessments\CreateEdit.cs" />
+    <Compile Include="ViewModels\Assessments\Index.cs" />
+    <Compile Include="ViewModels\Backup\AssessmentCreateEditVM.cs" />
+    <Compile Include="ViewModels\Backup\AttachmentVM.cs" />
+    <Compile Include="ViewModels\Backup\ClassroomCreateEditVM.cs" />
+    <Compile Include="ViewModels\Backup\ClassroomListVM.cs" />
+    <Compile Include="ViewModels\Backup\ClassroomVM.cs" />
+    <Compile Include="ViewModels\Classrooms\CreateEdit.cs" />
+    <Compile Include="ViewModels\Classrooms\Index.cs" />
+    <Compile Include="ViewModels\Backup\CriterionVM.cs" />
+    <Compile Include="ViewModels\Backup\DropdownOptionVM.cs" />
+    <Compile Include="ViewModels\Backup\AssessmentVM.cs" />
+    <Compile Include="ViewModels\Backup\DuplicateAssessmentVM.cs" />
+    <Compile Include="ViewModels\Backup\IModelBuilder.cs" />
+    <Compile Include="ViewModels\Backup\StudentListVM.cs" />
+    <Compile Include="ViewModels\Backup\MarkVM.cs" />
+    <Compile Include="ViewModels\Backup\NoteVM.cs" />
+    <Compile Include="ViewModels\Backup\StudentVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Assessments\CreateEdit.css" />
@@ -294,10 +310,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Classrooms\Create.cshtml" />
-    <Content Include="Views\Classrooms\Delete.cshtml" />
-    <Content Include="Views\Classrooms\Details.cshtml" />
-    <Content Include="Views\Classrooms\Edit.cshtml" />
     <Content Include="Views\Classrooms\Index.cshtml" />
     <Content Include="Views\Assessments\Duplicate.cshtml" />
     <Content Include="Views\Assessments\Create.cshtml" />
@@ -305,7 +317,7 @@
     <Content Include="Views\Assessments\Details.cshtml" />
     <Content Include="Views\Assessments\Edit.cshtml" />
     <Content Include="Views\Assessments\Index.cshtml" />
-    <Content Include="Views\Assessments\_CreateEdit.cshtml" />
+    <Content Include="Views\Assessments\CreateEdit.cshtml" />
     <Content Include="Views\Students\Create.cshtml" />
     <Content Include="Views\Students\Delete.cshtml" />
     <Content Include="Views\Students\Details.cshtml" />
@@ -326,10 +338,13 @@
     <Content Include="Views\Marks\_Radio.cshtml" />
     <Content Include="Views\Marks\_TextboxMulti.cshtml" />
     <Content Include="Views\Marks\_Dropdown.cshtml" />
+    <Content Include="Views\Classrooms\CreateEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Start\App_Data\" />
     <Folder Include="Migrations\" />
+    <Folder Include="ViewModels\Attachment\" />
+    <Folder Include="ViewModels\Notes\" />
     <Folder Include="Views\Attachment\" />
   </ItemGroup>
   <ItemGroup>

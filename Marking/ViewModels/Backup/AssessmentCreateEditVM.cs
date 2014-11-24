@@ -34,6 +34,14 @@ namespace Marking.ViewModels
         public IEnumerable<Note> Notes { get; set; }
         public IEnumerable<Criterion> Criteria { get; set; }
 
+        public AssessmentCreateEditVM() {}
+
+        public AssessmentCreateEditVM(string title, int grade)
+        {
+            ClassroomTitle = title;
+            Grade = grade;
+        }
+
         public class Attachment
         {
             public int ID { get; set; }
@@ -52,7 +60,9 @@ namespace Marking.ViewModels
             public string Title { get; set; }
             [Required(ErrorMessage = "Required")]
             public HttpPostedFileBase File { get; set; }
+            public string Filename { get; set; }
             public string FilenameInternal { get; set; }
+            public string ContentType { get; set; }
         }
 
         public class Note

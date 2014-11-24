@@ -1,8 +1,4 @@
-﻿@model IEnumerable<Marking.ViewModels.ClassroomListVM>
-
-@{
-    ViewBag.Title = "Index";
-}
+﻿@model Marking.ViewModels.Classroom.Index
 
 @section AddToHead{
     <link href="@Url.Content("~/Content/Classrooms/Index.css")" rel="stylesheet" type="text/css" />
@@ -10,16 +6,16 @@
 }
 
 <p class="CreateButton">
-    @Html.ActionLink("+ Class", "Create")
+    @Html.ActionLink("+ Class", "CreateEdit")
 </p>
 <table id="ClassroomTable" class="table">
-@foreach (var classroom in Model)
+@foreach (var classroom in Model.Classrooms)
 {
     <tr class="ClassroomRow closed" id="Classroom@(classroom.ID)">
         <td>
-            <span class="EditClassroom" id="EditClassroom@(classroom.ID)">@Html.ActionLink("Edit", "Edit", new { id = classroom.ID })</span>
+            <span class="EditClassroom" id="EditClassroom@(classroom.ID)">@Html.ActionLink("Edit", "CreateEdit", new { id = classroom.ID })</span>
             <span class="AddAssessment" id="AddAssessment@(classroom.ID)">+ Assessment</span>
-            <span class="Header">@Html.DisplayFor(modelItem => classroom.Title), Grade @Html.DisplayFor(modelItem => classroom.Grade)</span>
+            <span class="Header">@Html.DisplayFor(modelItem => classroom.Title), @Html.DisplayFor(modelItem => classroom.Grade)</span>
         </td>
     </tr>
     if (classroom.Assessments.Count() > 0)
