@@ -29,14 +29,15 @@ namespace Marking.Controllers
 
         // /Classrooms/1/Create
         // /Classrooms/1/Edit/1
-        [Route("Classrooms/{classroomID:int}/Create")]
-        [Route("Classrooms/{classroomID:int}/Edit/{id:int}")]
-        public ActionResult CreateEdit(int classroomID, int? id)
+        [Route("Assessments/Create/{classroomID:int}")]
+        [Route("Assessments/Edit/{id:int}")]
+        public ActionResult CreateEdit(int? classroomID, int? id)
         {
             VMs.CreateEdit vm;
-            if (id == null)
+            if (id == null && classroomID == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (id != null)
             {
-                vm = vmMapper.CreateEdit.CreateNew(classroomID);
+                vm = vmMapper.CreateEdit.CreateNew((int)classroomID);
             }
             else
             {
@@ -44,28 +45,16 @@ namespace Marking.Controllers
             }
             if (vm == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return HttpNotFound();
             }
             return View(vm);
         }
 
-        [Route("Classrooms/{classroomID:int}/CreateEdit")]
+        [Route("Assessments/CreateEdit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateEdit(int classroomID, VMs.CreateEdit vm)
+        public ActionResult CreateEdit(VMs.CreateEdit vm)
         {
-            if (classroomID == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Classroom classroom = db.Classrooms.Find(classroomID);
-            if (classroom == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            vm.ClassroomTitle = classroom.Title;
-            vm.Grade = classroom.Grade;
-
             if (ModelState.IsValid)
             {
                 using (var dbContextTransaction = db.Database.BeginTransaction())
@@ -95,10 +84,11 @@ namespace Marking.Controllers
 
                         db.Entry(assessment).State = EntityState.Added;
                         db.Assessments.Add(assessment);
-                        db.SaveChanges();
+                        db.SaveChanges();*/
+                        vmMapper.CreateEdit.ApplyChanges(vm);
                         dbContextTransaction.Commit();
                         TempData["Flash"] = "Assessment successfully created";
-                        TempData["FlashType"] = "GreenFlash";*/
+                        TempData["FlashType"] = "GreenFlash";
                         return RedirectToAction("Index", "Classrooms");
                     }
                     catch (Exception)
@@ -109,7 +99,7 @@ namespace Marking.Controllers
                     }
                 }
             }
-            return View(vm);
+            return View(vmMapper.CreateEdit.Prep(vm));
         }
 
         /*public ActionResult Duplicate(int? id)

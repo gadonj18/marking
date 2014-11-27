@@ -63,6 +63,7 @@ namespace Marking.Controllers
         // /Classrooms/CreateEdit
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Classrooms/CreateEdit")]
         public ActionResult CreateEdit(VMs.CreateEdit vm)
         {
             if (ModelState.IsValid)

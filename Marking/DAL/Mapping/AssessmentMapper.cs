@@ -3,6 +3,7 @@ using Models = Marking.Models;
 using AutoMapper;
 using System.Data.Entity;
 using System.Linq;
+using System.Collections.Generic;
 namespace Marking.DAL.Mapping
 {
     public class AssessmentMapper
@@ -104,8 +105,25 @@ namespace Marking.DAL.Mapping
             public void ApplyChanges(VMs.CreateEdit vm)
             {
                 Models.Assessment assessment = (vm.ID == null ? new Models.Assessment() : db.Assessments.Find(vm.ID));
-                Mapper.CreateMap<VMs.CreateEdit, Models.Assessment>();
+                Mapper.CreateMap<VMs.CreateEdit, Models.Assessment>()
+                            .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.AssessmentTitle))
+                            .ForMember(dest => dest.Subtitle, opt => opt.MapFrom(src => src.AssessmentSubtitle))
+                            .ForMember(dest => dest.Attachments, opt => opt.Ignore());
+                Mapper.CreateMap<VMs.CreateEdit.Note, Models.Note>();
+                Mapper.CreateMap<VMs.CreateEdit.Criterion, Models.Criterion>();
+                Mapper.CreateMap<VMs.CreateEdit.DropdownOption, Models.DropdownOption>();
                 Mapper.Map<VMs.CreateEdit, Models.Assessment>(vm, assessment);
+
+                assessment.Attachments = new List<Models.AssessmentAttachment>();
+                foreach (var attachmentVM in vm.NewAttachments)
+                {
+                    attachmentVM.ContentType = attachmentVM.File.ContentType;
+                    attachmentVM.Filename = attachmentVM.File.FileName;
+                    attachmentVM.FilenameInternal = db.UploadAttachment(attachmentVM.File);
+                    Mapper.CreateMap<VMs.CreateEdit.NewAttachment, Models.AssessmentAttachment>();
+                    Models.AssessmentAttachment attachment = Mapper.Map<VMs.CreateEdit.NewAttachment, Models.AssessmentAttachment>(attachmentVM);
+                    assessment.Attachments.Add(attachment);
+                }
                 if (vm.ID == null)
                 {
                     db.Assessments.Add(assessment);
