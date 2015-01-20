@@ -5,12 +5,33 @@
     <script src="@Url.Content("~/Scripts/Classrooms/Index.js")"></script>
 }
 <p class="YearDropdown">
-    <label for="YearDropdown">Classes from: </label>
+    <label for="YearDropdown">Schoolyear: </label>
     @Html.DropDownList("YearDropdown", Model.Years, new { id = "YearDropdown"})
 </p>
 <p class="CreateButton">
     @Html.ActionLink("+ Class", "CreateEdit")
 </p>
+<div style="clear:both;"></div>
+<div id="ClassroomList">
+    @foreach (var classroom in Model.Classrooms)
+    {
+        <div class="ClassroomRow img-rounded">
+            <span class="ClassroomTitle">@Html.DisplayFor(modelItem => classroom.Title), @Html.DisplayFor(modelItem => classroom.Grade)</span>
+            <ul>
+                <li id="EditClassroom@(classroom.ID)">@Html.ActionLink("Edit", "CreateEdit", new { id = classroom.ID })</li>
+                <li id="AddAssessment@(classroom.ID)">+ Assessment</li>
+            </ul>
+            <div style="clear:both;"></div>
+        </div>
+    }
+</div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
 <table id="ClassroomTable" class="table">
 @foreach (var classroom in Model.Classrooms)
 {

@@ -7,10 +7,13 @@
 p.CreateButton { float: right; }
 p.YearDropdown { float: left; }
 p.CreateButton a:hover { text-decoration: none; }
-tr.ClassroomRow { font-weight: bold; color: #FBFBFB; background-color: #CCC; }
-ul.ClassroomLinks { float: right; }
-ul.ClassroomLinks li { display: inline; color: #428bca; padding-left: 20px; }
-ul.ClassroomLinks li:hover, ul.ClassroomLinks li a:hover { cursor: pointer; text-decoration: none; color: white; }
+.ClassroomRow { border: 1px solid #C9C9C9; padding: 10px; margin-bottom: 15px; border-radius: 10px; }
+.ClassroomRow:hover { background-color: #F9F9F9; cursor: pointer; }
+.ClassroomRow .ClassroomTitle { font-weight: bold; }
+.ClassroomRow ul { float: right; }
+.ClassroomRow ul li { display: inline; color: #428bca; padding-left: 20px; }
+.ClassroomRow ul li:hover, ul li a:hover { cursor: pointer; text-decoration: none; color: white; }
+
 tr.ClassroomRow td span.Header:hover, tr.ClassroomRow td span.AddAssessment:hover { cursor: pointer; color: #428bca; }
 tr.ClassroomRow td span.AddAssessment { display: none; }
 tr.ClassroomRow td span.AddAssessment:hover { cursor: pointer; color: #428bca; }
