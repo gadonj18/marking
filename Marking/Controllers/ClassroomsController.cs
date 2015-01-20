@@ -27,7 +27,9 @@ namespace Marking.Controllers
         // /Classrooms
         public ActionResult Index()
         {
-            return RedirectToAction("Index", "Classrooms", new { year = DateTime.Now.Year });
+            var currYear = DateTime.Now.Year;
+            if (DateTime.Now.Month < 7) currYear--;
+            return RedirectToAction("Index", "Classrooms", new { year = currYear });
         }
 
         // /Classrooms/2013
@@ -63,7 +65,8 @@ namespace Marking.Controllers
         // /Classrooms/CreateEdit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("Classrooms/CreateEdit")]
+        [Route("Classrooms/Create")]
+        [Route("Classrooms/Edit/{id}")]
         public ActionResult CreateEdit(VMs.CreateEdit vm)
         {
             if (ModelState.IsValid)

@@ -9,6 +9,7 @@ namespace Marking.ViewModels.Classroom
     public class Index
     {
         public int Year { get; set; }
+        public IEnumerable<SelectListItem> Years { get; set; }
         public List<IndexClassroom> Classrooms { get; set; }
 
         public class IndexClassroom

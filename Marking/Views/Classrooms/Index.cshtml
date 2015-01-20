@@ -4,7 +4,10 @@
     <link href="@Url.Content("~/Content/Classrooms/Index.css")" rel="stylesheet" type="text/css" />
     <script src="@Url.Content("~/Scripts/Classrooms/Index.js")"></script>
 }
-
+<p class="YearDropdown">
+    <label for="YearDropdown">Classes from: </label>
+    @Html.DropDownList("YearDropdown", Model.Years, new { id = "YearDropdown"})
+</p>
 <p class="CreateButton">
     @Html.ActionLink("+ Class", "CreateEdit")
 </p>
@@ -13,8 +16,12 @@
 {
     <tr class="ClassroomRow closed" id="Classroom@(classroom.ID)">
         <td>
-            <span class="EditClassroom" id="EditClassroom@(classroom.ID)">@Html.ActionLink("Edit", "CreateEdit", new { id = classroom.ID })</span>
-            <span class="AddAssessment" id="AddAssessment@(classroom.ID)">+ Assessment</span>
+            <!--<span class="EditClassroom" id="EditClassroom@(classroom.ID)">@Html.ActionLink("Edit", "CreateEdit", new { id = classroom.ID })</span>
+            <span class="AddAssessment" id="AddAssessment@(classroom.ID)">+ Assessment</span>-->
+            <ul class="ClassroomLinks">
+                <li id="EditClassroom@(classroom.ID)">@Html.ActionLink("Edit", "CreateEdit", new { id = classroom.ID })</li>
+                <li id="AddAssessment@(classroom.ID)">+ Assessment</li>
+            </ul>
             <span class="Header">@Html.DisplayFor(modelItem => classroom.Title), @Html.DisplayFor(modelItem => classroom.Grade)</span>
         </td>
     </tr>

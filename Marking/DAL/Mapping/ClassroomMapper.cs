@@ -31,9 +31,22 @@ namespace Marking.DAL.Mapping
 
             public VMs.Index ListByYear(int year)
             {
+                var MaxYear = db.Classrooms.Max(x => x.Year);
+                if (MaxYear == null)
+                {
+                    MaxYear = DateTime.Now.Year;
+                    if (DateTime.Now.Month < 7) MaxYear--;
+                }
+                var MinYear = db.Classrooms.Min(x => x.Year);
+                var years = new List<SelectListItem>();
+                for (var i = MaxYear; i >= MinYear; i--)
+                {
+                    years.Add(new SelectListItem() { Text = i.ToString() + " / " + (i + 1).ToString(), Value = i.ToString(), Selected = (i == year) });
+                }
                 return new VMs.Index()
                 {
                     Year = year,
+                    Years = years,
                     Classrooms = (from classroom in db.Classrooms
                                   where classroom.Year == year
                                   select new VMs.Index.IndexClassroom
@@ -101,14 +114,23 @@ namespace Marking.DAL.Mapping
                 {
                     vm.GradeList.Add(new SelectListItem { Selected = (vm.Grade == grade), Value = grade, Text = grade });
                 }
+
+                //Year list should be the earliest recorded year minus one to the current year plus 1
                 if (vm.YearList == null)
                 {
                     vm.YearList = new List<SelectListItem>();
                 }
-                int currYear = DateTime.Now.Year;
-                for (int year = currYear + 1; year >= 2013; year--)
+                var currYear = DateTime.Now.Year;
+                if (DateTime.Now.Month < 7) currYear--;
+                var MinYear = (from classroom in db.Classrooms select classroom.Year).Min();
+                if (MinYear == null)
                 {
-                    vm.YearList.Add(new SelectListItem { Selected = (year == currYear), Value = year.ToString(), Text = year.ToString() });
+                    MinYear = currYear;
+                }
+                MinYear--;
+                for (int year = currYear + 1; year >= MinYear; year--)
+                {
+                    vm.YearList.Add(new SelectListItem { Selected = (year == currYear), Value = year.ToString(), Text = year.ToString() + " / " + (year + 1).ToString() });
                 }
                 return vm;
             }

@@ -28,17 +28,17 @@
 
     });
 
+    $("#YearDropdown").change(function () {
+        window.location.replace($(this).val());
+    });
+
     function OpenClassroom(row, ClassroomID) {
         row.removeClass("closed");
         row.addClass("open");
-        $("#EditClassroom" + ClassroomID).hide();
-        $("#AddAssessment" + ClassroomID).show();
     }
 
     function CloseClassroom(row, ClassroomID) {
         row.removeClass("open");
         row.addClass("closed");
-        $("#EditClassroom" + ClassroomID).show();
-        $("#AddAssessment" + ClassroomID).hide();
     }
 });
